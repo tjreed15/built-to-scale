@@ -1,5 +1,6 @@
 # Built To Scale
 A game submitted to the 2024 GMTK Game Jam.
+Play it here: https://tjreed.itch.io/built-to-scale
 
 ## Rules
 * Coming soon
@@ -10,11 +11,9 @@ A game submitted to the 2024 GMTK Game Jam.
 
 ## TODO
 * Create barebones project
-	* SceneChanger Root
 	* MainMenu
 	* GameScreen
 	* PauseMenu
-	* github workflow
 * Brainstorm theme ideas
 	* Tycoon - Scaling up a business
 	* Trolls - Scaling up a wall
