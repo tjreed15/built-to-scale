@@ -8,14 +8,61 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Label",
+"class": "FontAwesome6",
+"language": "GDScript",
+"path": "res://addons/font-awesome-6/FontAwesome6.gd"
+}, {
+"base": "Control",
+"class": "PrettyButton",
+"language": "GDScript",
+"path": "res://components/PrettyButton.gd"
+}, {
+"base": "Control",
+"class": "RoundedCornerControl",
+"language": "GDScript",
+"path": "res://components/RoundedCornerControl.gd"
+}, {
+"base": "Control",
+"class": "ThemedColorRect",
+"language": "GDScript",
+"path": "res://components/ThemedColorRect.gd"
+} ]
+_global_script_class_icons={
+"FontAwesome6": "",
+"PrettyButton": "",
+"RoundedCornerControl": "",
+"ThemedColorRect": ""
+}
+
 [application]
 
 config/name="BuiltToScale"
+run/main_scene="res://scenes/SceneChangerRoot.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+NodeUtils="*res://utilities/NodeUtils.gd"
+StartupScripts="*res://utilities/StartupScripts.gd"
+SceneChanger="*res://utilities/SceneChanger.gd"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/font-awesome-6/plugin.cfg" )
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+theme/custom="res://resources/themes/default_theme.tres"
 
 [physics]
 

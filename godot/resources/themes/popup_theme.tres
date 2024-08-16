@@ -1,0 +1,35 @@
+[gd_resource type="Theme" load_steps=6 format=2]
+
+[ext_resource path="res://resources/styleboxes/popup_button_stylebox.tres" type="StyleBox" id=1]
+[ext_resource path="res://resources/fonts/sans-regular-32.tres" type="DynamicFont" id=2]
+[ext_resource path="res://resources/fonts/sans-regular-42.tres" type="DynamicFont" id=3]
+[ext_resource path="res://resources/fonts/sans-regular-24.tres" type="DynamicFont" id=4]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.666667, 0.823529, 0.937255, 1 )
+border_width_left = 4
+border_width_top = 50
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.027451, 0.239216, 0.396078, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_top = 35.0
+shadow_size = 10
+shadow_offset = Vector2( 6, 6 )
+
+[resource]
+default_font = ExtResource( 4 )
+Button/fonts/font = ExtResource( 3 )
+Button/styles/disabled = ExtResource( 1 )
+Button/styles/focus = ExtResource( 1 )
+Button/styles/hover = ExtResource( 1 )
+Button/styles/normal = ExtResource( 1 )
+Button/styles/pressed = ExtResource( 1 )
+Label/colors/font_color = Color( 0.027451, 0.239216, 0.396078, 1 )
+Label/fonts/font = ExtResource( 3 )
+WindowDialog/colors/title_color = Color( 1, 1, 1, 1 )
+WindowDialog/fonts/title_font = ExtResource( 2 )
+WindowDialog/styles/panel = SubResource( 2 )

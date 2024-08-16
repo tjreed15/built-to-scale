@@ -1,0 +1,20 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+render_mode blend_mix,unshaded;
+
+uniform int radius : hint_range(0, 100) = 20;
+uniform vec2 size = vec2(100.0, 100.0);
+
+void fragment() {
+	vec2 pos = UV * size;
+	float true_radius = clamp(float(radius), 0.0, min(size.x / 2.0, size.y / 2.0));
+	vec2 corner_radius = vec2(true_radius, true_radius);
+	vec2 edge_pos = clamp(pos, corner_radius, size - corner_radius);
+	float edge_dist = distance(pos, edge_pos);
+	
+	if (edge_dist > true_radius) {
+		COLOR.a = 0.0;
+	}
+}"
