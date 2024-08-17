@@ -1,5 +1,7 @@
 extends Control
 
+export var temp: int = 0
+
 var next_draggable: Block
 
 func _ready():
@@ -27,7 +29,7 @@ func __reset_draggable():
 func __create_draggable():
 	var block = Block.new()
 	block.block_material = randi() % Block.BlockMaterial.size()
-	block.block_shape = randi() % Block.BlockShape.size()
-	block.block_rotation = randi() % 4
+	block.block_shape = 3 #randi() % Block.BlockShape.size()
+	block.block_rotation = self.temp #randi() % 4
 	block.position = self.rect_size / 2
 	return block

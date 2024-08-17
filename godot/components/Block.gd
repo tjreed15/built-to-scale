@@ -94,7 +94,8 @@ func get_offsets():
 		var center_vector = Vector2(0.5, 0.5)
 		var center = pos + center_vector
 		var rotated = center.rotated(self.rotation)
-		result.append(rotated - center_vector)
+		var uncentered = rotated - center_vector
+		result.append(uncentered.snapped(Vector2(1, 1)))
 	return result
 
 func contains(position: Vector2):
