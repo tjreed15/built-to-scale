@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node2D",
+"class": "Block",
+"language": "GDScript",
+"path": "res://components/Block.gd"
+}, {
+"base": "Control",
+"class": "DragContainer",
+"language": "GDScript",
+"path": "res://utilities/DragContainer.gd"
+}, {
 "base": "Label",
 "class": "FontAwesome6",
 "language": "GDScript",
@@ -35,6 +45,8 @@ _global_script_classes=[ {
 "path": "res://components/ThemedColorRect.gd"
 } ]
 _global_script_class_icons={
+"Block": "",
+"DragContainer": "",
 "FontAwesome6": "",
 "GlobalConstants": "",
 "PrettyButton": "",
