@@ -2,51 +2,56 @@ class_name Rock
 extends Node2D
 
 const image = preload("res://resources/images/aliens/alienYellow_round.png")
-const ARC_TIME: float = 0.5
 const GRAVITY: float = 20.0
 const HIT_DIST: float = 3.0
 const SCALE = Vector2(0.5, 0.5)
 
 var sprite: Sprite = Sprite.new()
 
-var target_player: Player
-var target_map: TileMap
-var target_cell_index: Vector2
+var target: Node2D
 var target_position: Vector2
+var arc_time: float
 
 var fire_velocity: Vector2
 
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
-func _init(target: Node2D, target_pos: Vector2):
+# warning-ignore:shadowed_variable
+func _init(target: Node2D, target_position: Vector2, arc_time: float = 0.5):
 	self.scale = SCALE
-	if target is TileMap:
-		self.target_map = target
-		self.target_cell_index = target_pos
-		self.target_position = self.target_map.to_global(self.target_map.map_to_world(target_pos))
-	else:
-		self.target_player = target
-		self.target_position = target_cell_index
+	self.target = target
+	self.target_position = target_position
+	self.arc_time = arc_time
 	self.sprite.texture = image
 	self.add_child(self.sprite)
 
+func throw(origin: Node2D):
+	self.position = origin.position
+	origin.get_parent().add_child(self)
+
 func _ready():
-	self.__solve_ballistic_arc_lateral(self.position, self.target_position)
+	self.fire_velocity = self.__calculate_initial_velocity(self.position, self.target_position)
 
 func _physics_process(delta):
 	self.translate(self.fire_velocity * delta)
 	self.fire_velocity.y -= GRAVITY * delta
 	if self.position.distance_squared_to(self.target_position) <= HIT_DIST:
-		self.__hit_cell()
+		if not self.target.has_method("_check_rock_hit") or self.target._check_rock_hit(self):
+			self.__hit_target()
+		else:
+			self.__miss_target()
 
-func __hit_cell():
-	if self.target_map:
-		self.target_map.clear_cell(self.target_cell_index)
-	elif self.target_player and self.position.distance_squared_to(self.target_player.position) <= HIT_DIST:
-		print("Hit Player")
+func __hit_target():
+	self.queue_free()
+	if self.target and self.target.has_method("_rock_hit"):
+		self.target._rock_hit(self.target_position)
+
+func __miss_target():
+	yield(self.get_tree().create_timer(2.0), "timeout")
 	self.queue_free()
 
-func __solve_ballistic_arc_lateral(origin: Vector2, target: Vector2):	
-	var init_vel_x = (target.x - origin.x) / ARC_TIME
-	var init_vel_y = ((target.y - origin.y) / ARC_TIME) + (GRAVITY * ARC_TIME * 0.5)
-	self.fire_velocity = Vector2(init_vel_x, init_vel_y)
+# warning-ignore:shadowed_variable
+func __calculate_initial_velocity(origin: Vector2, target: Vector2):	
+	var init_vel_x = (target.x - origin.x) / self.arc_time
+	var init_vel_y = ((target.y - origin.y) / self.arc_time) + (GRAVITY * self.arc_time * 0.5)
+	return Vector2(init_vel_x, init_vel_y)

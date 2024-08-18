@@ -1,6 +1,9 @@
 class_name Enemy
 extends Node2D
 
+signal pressed
+signal died
+
 const image = preload("res://resources/images/aliens/alienYellow_round.png")
 const ATTACK_SEARCH_ATTEMPTS: int = 5
 const WAIT_TIME: float = 1.5
@@ -27,12 +30,17 @@ func _init(tile_map: TileMap, player: Player):
 	self.sprite.add_child(self.button)
 	self.timer.one_shot = true
 	self.add_child(self.timer)
+	
+	self.modulate = GlobalConstants.GREEN_TINT
 
 func _ready():
 	self.__start_attack_timer()
 
 func _pressed():
-	self.queue_free()
+	self.emit_signal("pressed", self)
+
+func _rock_hit(_position: Vector2):
+	self.emit_signal("died", self)
 
 func _process(_delta):
 	if self.timer.time_left == 0:
@@ -47,14 +55,11 @@ func __attack():
 		self.__attack_player()
 
 func __attack_tile(tile_pos: Vector2):
-	var rock = Rock.new(self.tile_map, tile_pos)
-	rock.position = self.position
-	self.get_parent().add_child(rock)
+	var pos = self.tile_map.get_global_cell_position(tile_pos.x, tile_pos.y)
+	Rock.new(self.tile_map, pos).throw(self)
 
 func __attack_player():
-	var rock = Rock.new(player, player.position)
-	rock.position = self.position
-	self.get_parent().add_child(rock)
+	Rock.new(player, player.position).throw(self)
 
 func __start_attack_timer():
 	self.timer.start(WAIT_TIME)

@@ -16,8 +16,7 @@ func drop_data(position: Vector2, container):
 	block.position = self.__normalize_position(position)
 	for offset in block.get_offsets():
 		var cell_pos = block.position + offset
-		var options = self.__get_transpose_options(block.block_rotation)
-		self.tile_map.set_cellv(cell_pos, block.get_tilemap_index(), options[0], options[1], options[2])
+		self.tile_map.add_cell(cell_pos, block.get_tilemap_index(), block.block_rotation)
 	
 func __get_block_from_data(container: DragContainer) -> Block:
 	if container and container.data and container.data is Block:
@@ -33,9 +32,3 @@ func __can_fit_block(block: Block, position: Vector2):
 		if not self.tile_map.in_bounds(cell_pos) or self.tile_map.has_value(cell_pos):
 			return false
 	return true
-
-func __get_transpose_options(rotation: int):
-	var flip_x = rotation in [1, 2]
-	var flip_y = rotation in [2, 3]
-	var transpose = rotation in [1, 3]
-	return [flip_x, flip_y, transpose]

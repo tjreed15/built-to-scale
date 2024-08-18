@@ -70,6 +70,7 @@ var sprites: Array = [
 ]
 
 func _init():
+	self.modulate = GlobalConstants.RED_TINT
 	self.scale = Vector2(BLOCK_SCALE, BLOCK_SCALE)
 
 func _ready():

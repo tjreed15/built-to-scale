@@ -11,6 +11,7 @@ onready var up_next_button: PrettyButton = $"%UpNextButton"
 
 onready var timer: Timer = Timer.new()
 var player: Player
+var enemies: Array
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -27,15 +28,17 @@ func _next_pressed():
 	pass
 
 func _spawn():
-	if self.__count_enemies() < ENEMY_COUNT:
+	if self.enemies.size() < ENEMY_COUNT:
 		var enemy = Enemy.new(self.tile_map, self.player)
 		enemy.position = ENEMY_MIN + (Vector2(randf(), randf()) * (ENEMY_MAX - ENEMY_MIN))
+		self.enemies.append(enemy)
+		enemy.connect("pressed", self, "_enemy_pressed")
+		enemy.connect("died", self, "_enemy_died")
 		self.add_child(enemy)
 
-func __count_enemies():
-	var count = 0
-	for child in self.get_children():
-		if child is Enemy:
-			count += 1
-	return count
+func _enemy_pressed(enemy: Enemy):
+	self.player.target_enemy(enemy)
 	
+func _enemy_died(enemy: Enemy):
+	self.enemies.remove(self.enemies.find(enemy))
+	enemy.queue_free()
