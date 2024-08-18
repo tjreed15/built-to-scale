@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://components/PrettyButton.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/wood/elementWood010.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://scenes/main/Droppable.gd" type="Script" id=8]
 [ext_resource path="res://scenes/main/Draggable.gd" type="Script" id=9]
 [ext_resource path="res://resources/materials/dirt_disp_4k.png" type="Texture" id=10]
+[ext_resource path="res://scenes/main/GameScreen.gd" type="Script" id=11]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -133,6 +134,7 @@ shader_param/bg_color = null
 5/z_index = 0
 
 [node name="GameScreen" type="Node"]
+script = ExtResource( 11 )
 
 [node name="Background" type="Control" parent="."]
 anchor_right = 1.0
@@ -169,6 +171,7 @@ anchor_bottom = 1.0
 script = ExtResource( 8 )
 
 [node name="TileMap" type="TileMap" parent="Center/Droppable"]
+unique_name_in_owner = true
 scale = Vector2( 0.5, 0.5 )
 tile_set = SubResource( 1 )
 cell_size = Vector2( 70, 70 )
@@ -222,7 +225,8 @@ margin_left = -200.0
 rect_min_size = Vector2( 200, 300 )
 theme_type_variation = "SecondaryThemedColorRect"
 
-[node name="PrettyButton" type="Control" parent="Right"]
+[node name="UpNextButton" type="Control" parent="Right"]
+unique_name_in_owner = true
 margin_right = 200.0
 margin_bottom = 200.0
 theme_type_variation = "NaturalDisasterButton"

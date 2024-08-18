@@ -1,3 +1,4 @@
+class_name Droppable
 extends Control
 
 const MAP_SIZE: Vector2 = Vector2(26, 15) # MAX: 30x18
