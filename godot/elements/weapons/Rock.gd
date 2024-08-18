@@ -8,6 +8,8 @@ const HIT_DIST: float = 3.0
 const SCALE = Vector2(0.5, 0.5)
 
 var sprite: Sprite = Sprite.new()
+
+var target_player: Player
 var target_map: TileMap
 var target_cell_index: Vector2
 var target_position: Vector2
@@ -16,13 +18,14 @@ var fire_velocity: Vector2
 
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
-func _init(target_map: TileMap, target_cell_index: Vector2):
+func _init(target: Node2D, target_pos: Vector2):
 	self.scale = SCALE
-	self.target_map = target_map
-	if target_map:
-		self.target_cell_index = target_cell_index
-		self.target_position = self.target_map.to_global(self.target_map.map_to_world(target_cell_index))
+	if target is TileMap:
+		self.target_map = target
+		self.target_cell_index = target_pos
+		self.target_position = self.target_map.to_global(self.target_map.map_to_world(target_pos))
 	else:
+		self.target_player = target
 		self.target_position = target_cell_index
 	self.sprite.texture = image
 	self.add_child(self.sprite)
@@ -38,9 +41,9 @@ func _physics_process(delta):
 
 func __hit_cell():
 	if self.target_map:
-		self.target_map.set_cellv(self.target_cell_index, -1)
-	else:
-		print("Rock hit player!")
+		self.target_map.clear_cell(self.target_cell_index)
+	elif self.target_player and self.position.distance_squared_to(self.target_player.position) <= HIT_DIST:
+		print("Hit Player")
 	self.queue_free()
 
 func __solve_ballistic_arc_lateral(origin: Vector2, target: Vector2):	

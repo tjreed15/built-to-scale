@@ -1,8 +1,6 @@
 class_name Droppable
 extends Control
 
-const MAP_SIZE: Vector2 = Vector2(26, 15) # MAX: 30x18
-
 onready var tile_map: TileMap = $TileMap
 
 
@@ -32,7 +30,7 @@ func __normalize_position(position: Vector2):
 func __can_fit_block(block: Block, position: Vector2):
 	for offset in block.get_offsets():
 		var cell_pos = position + offset
-		if self.tile_map.get_cellv(cell_pos) >= 0 or cell_pos.x < 0 or cell_pos.y < 0 or cell_pos.x >= MAP_SIZE.x or cell_pos.y >= MAP_SIZE.y:
+		if not self.tile_map.in_bounds(cell_pos) or self.tile_map.has_value(cell_pos):
 			return false
 	return true
 

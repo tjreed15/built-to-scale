@@ -9,11 +9,14 @@ var sprite: Sprite = Sprite.new()
 var button: Button = Button.new()
 var timer: Timer = Timer.new()
 
-var target: TileMap
+var tile_map: TileMap
+var player: Player
 
 # warning-ignore:shadowed_variable
-func _init(target: TileMap):
-	self.target = target
+# warning-ignore:shadowed_variable
+func _init(tile_map: TileMap, player: Player):
+	self.tile_map = tile_map
+	self.player = player
 	self.sprite.texture = image
 	self.sprite.centered = false
 	self.add_child(self.sprite)
@@ -39,17 +42,17 @@ func __attack():
 	self.__start_attack_timer()
 	var tile_pos = self.__get_target_tile()
 	if tile_pos != null:
-		self.__attack_position(tile_pos)
+		self.__attack_tile(tile_pos)
 	else:
 		self.__attack_player()
 
-func __attack_position(tile_pos):
-	var rock = Rock.new(self.target, tile_pos)
+func __attack_tile(tile_pos: Vector2):
+	var rock = Rock.new(self.tile_map, tile_pos)
 	rock.position = self.position
 	self.get_parent().add_child(rock)
 
 func __attack_player():
-	var rock = Rock.new(null, Vector2(0, GlobalConstants.SCREEN_HEIGHT))
+	var rock = Rock.new(player, player.position)
 	rock.position = self.position
 	self.get_parent().add_child(rock)
 
@@ -58,9 +61,9 @@ func __start_attack_timer():
 
 func __get_target_tile():
 	for i in ATTACK_SEARCH_ATTEMPTS:
-		var x = randi() % int(Droppable.MAP_SIZE.x)
-		var y = randi() % int(Droppable.MAP_SIZE.y)
-		var cell = self.target.get_cell(x, y)
-		if cell >= 0:
-			return Vector2(x, y)
+		var x = randi() % int(self.tile_map.SIZE.x)
+		var y = randi() % int(self.tile_map.SIZE.y)
+		var index = Vector2(x, y)
+		if self.tile_map.has_value(index):
+			return index
 	return null
