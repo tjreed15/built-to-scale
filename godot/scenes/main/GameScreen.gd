@@ -13,7 +13,10 @@ onready var timer: Timer = Timer.new()
 var player: Player
 var enemies: Array
 
+var disaster: Disaster = Flood.new(60.0)
+
 func _ready():
+	self.__init_disaster()
 	# warning-ignore:return_value_discarded
 	self.up_next_button.connect("pressed", self, "_next_pressed")
 	self.add_child(self.timer)
@@ -42,3 +45,6 @@ func _enemy_pressed(enemy: Enemy):
 func _enemy_died(enemy: Enemy):
 	self.enemies.remove(self.enemies.find(enemy))
 	enemy.queue_free()
+
+func __init_disaster():
+	self.up_next_button.text = "Flood" + "\n" + "1:05"

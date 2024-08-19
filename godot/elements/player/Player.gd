@@ -34,7 +34,7 @@ func _process(_delta):
 
 func _tile_map_clicked(x: int, y: int, _cell: int):
 	var pos = self.tile_map.get_global_cell_position(Vector2(x, y))
-	self.position = pos# - Vector2(35, 35)
+	self.position = pos
 
 func _check_rock_hit(rock: Rock):
 	return rock.position.distance_squared_to(self.position) < Rock.HIT_DIST

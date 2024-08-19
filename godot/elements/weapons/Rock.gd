@@ -36,7 +36,7 @@ func _process(delta):
 	self.translate(self.fire_velocity * delta)
 	self.fire_velocity.y -= GRAVITY * delta
 	if self.position.distance_squared_to(self.target_position) <= HIT_DIST:
-		if not self.target.has_method("_check_rock_hit") or self.target._check_rock_hit(self):
+		if is_instance_valid(self.target) and not self.target.has_method("_check_rock_hit") or self.target._check_rock_hit(self):
 			self.__hit_target()
 		else:
 			self.__miss_target()

@@ -45,6 +45,8 @@ class FallData:
 		self.tile_map.clear_cell(current_index)
 
 	func fall(delta: float):
+		if not is_instance_valid(self.sprite):
+			return true
 		self.sprite.position.y += (self.speed * delta)
 		self.speed += (FALL_ACCELL * delta)
 		if sprite.position.y >= self.target_position.y:
