@@ -13,11 +13,11 @@ var button: Button = Button.new()
 var timer: Timer = Timer.new()
 
 var tile_map: TileMap
-var player: Player
+var player: Node2D
 
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
-func _init(tile_map: TileMap, player: Player):
+func _init(tile_map: TileMap, player: Node2D):
 	self.tile_map = tile_map
 	self.player = player
 	self.sprite.texture = image
@@ -55,7 +55,7 @@ func __attack():
 		self.__attack_player()
 
 func __attack_tile(tile_pos: Vector2):
-	var pos = self.tile_map.get_global_cell_position(tile_pos.x, tile_pos.y)
+	var pos = self.tile_map.get_global_cell_position(tile_pos)
 	Rock.new(self.tile_map, pos).throw(self)
 
 func __attack_player():
@@ -66,8 +66,8 @@ func __start_attack_timer():
 
 func __get_target_tile():
 	for i in ATTACK_SEARCH_ATTEMPTS:
-		var x = randi() % int(self.tile_map.SIZE.x)
-		var y = randi() % int(self.tile_map.SIZE.y)
+		var x = i # randi() % int(self.tile_map.SIZE.x)
+		var y = i #randi() % int(self.tile_map.SIZE.y)
 		var index = Vector2(x, y)
 		if self.tile_map.has_value(index):
 			return index
