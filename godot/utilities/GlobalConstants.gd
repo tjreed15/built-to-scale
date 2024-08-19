@@ -7,3 +7,4 @@ const SCREEN_SIZE: Vector2 = Vector2(SCREEN_WIDTH, SCREEN_HEIGHT)
 
 const RED_TINT: Color = Color("#f14444")
 const GREEN_TINT: Color = Color("#0ebbbb")
+const BLUE_COLOR: Color = Color("#0000ff")

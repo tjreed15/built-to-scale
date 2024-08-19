@@ -9,12 +9,17 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Disaster",
+"class": "AlienAttack",
+"language": "GDScript",
+"path": "res://elements/disasters/aliens/AlienAttack.gd"
+}, {
 "base": "Node2D",
 "class": "Block",
 "language": "GDScript",
 "path": "res://components/Block.gd"
 }, {
-"base": "Reference",
+"base": "Node",
 "class": "Disaster",
 "language": "GDScript",
 "path": "res://elements/disasters/Disaster.gd"
@@ -90,6 +95,7 @@ _global_script_classes=[ {
 "path": "res://scenes/main/TowerMap.gd"
 } ]
 _global_script_class_icons={
+"AlienAttack": "",
 "Block": "",
 "Disaster": "",
 "DragContainer": "",
