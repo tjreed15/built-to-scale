@@ -210,6 +210,7 @@ tile_set = SubResource( 1 )
 cell_size = Vector2( 70, 70 )
 cell_custom_transform = Transform2D( 70, 0, 0, 70, 0, 0 )
 format = 1
+tile_data = PoolIntArray( 917504, 5, 0, 917505, 5, 0, 917506, 5, 0, 917507, 5, 0 )
 script = ExtResource( 12 )
 
 [node name="Left" type="Control" parent="."]

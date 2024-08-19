@@ -65,10 +65,7 @@ func __start_attack_timer():
 	self.timer.start(WAIT_TIME)
 
 func __get_target_tile():
-	for i in ATTACK_SEARCH_ATTEMPTS:
-		var x = i # randi() % int(self.tower_map.SIZE.x)
-		var y = i #randi() % int(self.tower_map.SIZE.y)
-		var index = Vector2(x, y)
-		if self.tower_map.has_value(index):
-			return index
-	return null
+	var cells = self.tower_map.get_used_cells()
+	if cells.size() == 0:
+		return null
+	return cells[randi() % cells.size()]

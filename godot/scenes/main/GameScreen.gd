@@ -1,6 +1,6 @@
 extends Node
 
-const PLAYER_START_POS: Vector2 = Vector2(250, 700 - 70)
+const PLAYER_START_POS: Vector2 = Vector2(200 + 70, 525 - 70)
 const ENEMY_MIN: Vector2 = Vector2(1080, 525)
 const ENEMY_MAX: Vector2 = Vector2(1280 - 70, 700 - 70)
 const SPAWN_RATE: float = 3.0

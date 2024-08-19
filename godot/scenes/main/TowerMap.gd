@@ -64,9 +64,14 @@ var falling_mutex: Mutex = Mutex.new()
 var falling_array: Array = []
 
 func _ready():
-	for col in SIZE.x:
-		for row in SIZE.y:
-			self.set_cell(col, row, TRANSPARENT_TILE_INDEX)
+	self.__add_initial_tiles()
+
+func get_used_cells():
+	var result = []
+	for cell in .get_used_cells():
+		if self.has_value(cell):
+			result.append(cell)
+	return result
 
 func add_cell(pos: Vector2, tile: int, rotation: int):
 	var options = self.__init_transpose_options(rotation)
@@ -163,3 +168,10 @@ func __insert_falling(falling: FallData):
 	self.falling_mutex.lock()
 	self.falling_array.append(falling)
 	self.falling_mutex.lock()
+
+func __add_initial_tiles():
+	for col in SIZE.x:
+		for row in SIZE.y:
+			self.set_cell(col, row, TRANSPARENT_TILE_INDEX)
+	for col in 4:
+		self.add_cell(Vector2(col, SIZE.y - 1), 2, 0)

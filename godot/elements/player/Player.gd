@@ -4,6 +4,7 @@ extends Node2D
 const image = preload("res://resources/images/aliens/alienGreen_suit.png")
 const JUMP_TIME: float = 0.3
 const HIT_DIST: float = 35.0
+const CHECK_SQUARES: Array = [Vector2.ZERO, Vector2.LEFT, Vector2.UP, -Vector2.ONE]
 
 var sprite: Sprite = Sprite.new()
 var parabolic_mover: ParabolicMover = ParabolicMover.new()
@@ -29,7 +30,13 @@ func target_enemy(enemy: Node2D):
 func _tower_map_clicked(index: Vector2):
 	if not self.tower_map.has_value(index):
 		return
-	var target = self.tower_map.get_global_cell_position(index)
+	
+	# Land with left foot on index (unless off right edge)
+	var target_index = index + Vector2.UP + (Vector2.RIGHT if index.x < TowerMap.SIZE.x - 1 else Vector2.ZERO)
+	if not self.__has_space_to_land(target_index):
+		return
+	
+	var target = self.tower_map.get_global_cell_position(target_index)
 	self.parabolic_mover.start(target, JUMP_TIME)
 
 func _finish_jump():
@@ -40,3 +47,10 @@ func _check_rock_hit(rock: Rock):
 
 func _rock_hit(_position: Vector2):
 	pass
+
+func __has_space_to_land(index: Vector2):
+	for dir in CHECK_SQUARES:
+		var loc = index + dir
+		if self.tower_map.has_value(loc):
+			return false
+	return true
