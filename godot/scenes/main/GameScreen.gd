@@ -47,4 +47,4 @@ func _enemy_died(enemy: Enemy):
 	enemy.queue_free()
 
 func __init_disaster():
-	self.up_next_button.text = "Flood" + "\n" + "1:05"
+	self.up_next_button.text = self.disaster.disaster_name + "\n" + NodeUtils.get_time_string(self.disaster.duration)

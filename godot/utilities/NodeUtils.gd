@@ -14,3 +14,10 @@ func pause(pause: bool = true):
 
 func unpause():
 	self.pause(false)
+
+func get_time_string(time: float):
+	var total_seconds = int(time)
+	var seconds = total_seconds % 60
+	var minutes = (total_seconds / 60) % 60
+	var hours = total_seconds / 3600
+	return "%02d:%02d:%02d" % [hours, minutes, seconds]
