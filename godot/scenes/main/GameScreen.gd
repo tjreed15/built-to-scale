@@ -25,6 +25,8 @@ func _ready():
 	self.timer.start(SPAWN_RATE)
 	self.player = Player.new(self.tower_map)
 	self.player.position = PLAYER_START_POS
+	# warning-ignore:return_value_discarded
+	self.player.connect("died", self, "_player_died")
 	self.add_child(self.player)
 
 func _next_pressed():
@@ -45,6 +47,9 @@ func _enemy_pressed(enemy: Enemy):
 func _enemy_died(enemy: Enemy):
 	self.enemies.remove(self.enemies.find(enemy))
 	enemy.queue_free()
+
+func _player_died():
+	print("He gone")
 
 func __init_disaster():
 	self.up_next_button.text = self.disaster.disaster_name + "\n" + NodeUtils.get_time_string(self.disaster.duration)

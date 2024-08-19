@@ -1,8 +1,11 @@
 class_name Player
 extends Node2D
 
+signal died
+
 const image = preload("res://resources/images/aliens/alienGreen_suit.png")
 const JUMP_TIME: float = 0.3
+const FALL_TIME: float = 0.5
 const HIT_DIST: float = 35.0
 const CHECK_SQUARES: Array = [Vector2.ZERO, Vector2.LEFT, Vector2.UP, -Vector2.ONE]
 
@@ -11,6 +14,7 @@ var parabolic_mover: ParabolicMover = ParabolicMover.new()
 var tower_map: TowerMap
 
 var target_cell_position: Vector2
+var moving: bool = false
 
 # warning-ignore:shadowed_variable
 func _init(tower_map: TowerMap):
@@ -19,15 +23,26 @@ func _init(tower_map: TowerMap):
 	self.sprite.centered = true
 	self.add_child(self.sprite)
 	# warning-ignore:return_value_discarded
-	self.tower_map.connect("clicked", self, "_tower_map_clicked")
+	self.tower_map.connect("cell_clicked", self, "_tower_cell_clicked")
+	# warning-ignore:return_value_discarded
+	self.tower_map.connect("cell_cleared", self, "_tower_cell_cleared")
 	# warning-ignore:return_value_discarded
 	self.parabolic_mover.connect("reached_target", self, "_finish_jump")
 	self.add_child(self.parabolic_mover)
 
+func get_tower_index():
+	return self.tower_map.get_cell_index(self.position)
+
 func target_enemy(enemy: Node2D):
 	Rock.new(enemy, enemy.position, 0.2).throw(self)
 
-func _tower_map_clicked(index: Vector2):
+# Will on square below index and below to its left
+func can_stand_at(index: Vector2):
+	var below = index + Vector2.DOWN
+	var below_left = below + Vector2.LEFT
+	return self.tower_map.has_value(below) or self.tower_map.has_value(below_left)
+
+func _tower_cell_clicked(index: Vector2):
 	if not self.tower_map.has_value(index):
 		return
 	
@@ -38,9 +53,13 @@ func _tower_map_clicked(index: Vector2):
 	
 	var target = self.tower_map.get_global_cell_position(target_index)
 	self.parabolic_mover.start(target, JUMP_TIME)
+	self.moving = true
 
 func _finish_jump():
+	self.moving = false
 	self.parabolic_mover.stop()
+	if self.get_tower_index().y >= TowerMap.SIZE.y - 1:
+		self.emit_signal("died")
 
 func _check_rock_hit(rock: Rock):
 	return rock.position.distance_to(self.position) < HIT_DIST
@@ -54,3 +73,15 @@ func __has_space_to_land(index: Vector2):
 		if self.tower_map.has_value(loc):
 			return false
 	return true
+
+func _tower_cell_cleared(_index: Vector2):
+	if self.moving:
+		return
+	var location = self.get_tower_index()
+	if not self.can_stand_at(location):
+		var fall_y_index_right = self.tower_map.get_col_min_max(location.x)
+		var fall_y_index_left = self.tower_map.get_col_min_max(location.x - 1)
+		var fall_y_index = min(fall_y_index_right, fall_y_index_left) - 1
+		var fall_to = self.tower_map.get_global_cell_position(Vector2(location.x, fall_y_index))
+		self.parabolic_mover.start(fall_to, FALL_TIME)
+		self.moving = true

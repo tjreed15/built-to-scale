@@ -1,7 +1,8 @@
 class_name TowerMap
 extends TileMap
 
-signal clicked # (index: Vector2)
+signal cell_clicked # (index: Vector2)
+signal cell_cleared # (index: Vector2)
 
 const REVERSE_MAP: Dictionary = {
 	2: preload("res://resources/images/stone/elementStone011.png"),
@@ -88,6 +89,7 @@ func get_cell_index(global_position: Vector2):
 
 func clear_cell(index: Vector2):
 	self.set_cellv(index, TRANSPARENT_TILE_INDEX)
+	self.emit_signal("cell_cleared", index)
 
 func in_bounds(index: Vector2):
 	if index.x < 0 or index.y < 0 or index.x >= SIZE.x or index.y >= SIZE.y:
@@ -96,6 +98,18 @@ func in_bounds(index: Vector2):
 
 func has_value(index: Vector2):
 	return not self.get_cellv(index) in [-1, TRANSPARENT_TILE_INDEX]
+
+func get_col_min_max(x: int):
+	var result = SIZE.y
+	for y in range(SIZE.y - 1, -1, -1):
+		if self.has_value(Vector2(x, y)):
+			result = y
+		else:
+			break
+	for falling in self.falling_array:
+		if falling.target_index.x == x:
+			result -= 1
+	return result
 
 func flood_fill(index: Vector2):
 	var seen = {}
@@ -134,7 +148,7 @@ func __clicked(event: InputEventMouseButton):
 	var location = self.to_local(event.position) * self.scale
 	if location.x >= 0 and location.y >= 0 and location.x < SIZE_IN_PIXELS.x and location.y < SIZE_IN_PIXELS.y:
 		var index = (location / float(Block.BLOCK_SIZE)).floor()
-		self.emit_signal("clicked", index)
+		self.emit_signal("cell_clicked", index)
 
 func __get_rotation(index: Vector2):
 	var flip_x = self.is_cell_x_flipped(int(index.x), int(index.y))
