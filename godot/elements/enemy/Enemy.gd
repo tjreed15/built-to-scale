@@ -65,7 +65,17 @@ func __start_attack_timer():
 	self.timer.start(WAIT_TIME)
 
 func __get_target_tile():
-	var cells = self.tower_map.get_used_cells()
+	var cells = self.__temp_filter_cells()
 	if cells.size() == 0:
 		return null
 	return cells[randi() % cells.size()]
+
+const FILTER = false
+func __temp_filter_cells():
+	if FILTER:
+		var result = []
+		for cell in self.tower_map.get_used_cells():
+			if cell.x < 10 and cell.y < 10:
+				result.append(cell)
+		return result
+	return self.tower_map.get_used_cells()

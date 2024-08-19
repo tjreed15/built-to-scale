@@ -19,7 +19,6 @@ const FALL_ACCELL: float = -ParabolicMover.GRAVITY
 class FallData:
 	var tile_map: TowerMap
 	var target_index: Vector2
-	var target_position: Vector2
 	var tile: int
 	var rotation: int
 	var sprite: Sprite
@@ -33,7 +32,6 @@ class FallData:
 	func _init(tile_map: TowerMap, current_index: Vector2, target_index: Vector2, tile: int, rotation: int):
 		self.tile_map = tile_map
 		self.target_index = target_index
-		self.target_position = self.tile_map.get_world_cell_position(target_index) + (Vector2.ONE * TILE_SIZE / 2.0)
 		self.tile = tile
 		self.rotation = rotation
 		self.sprite = Sprite.new()
@@ -50,7 +48,9 @@ class FallData:
 			return true
 		self.sprite.position.y += (self.speed * delta)
 		self.speed += (FALL_ACCELL * delta)
-		if sprite.position.y >= self.target_position.y:
+		var target_position = self.tile_map.get_world_cell_position(self.target_index).y - (TILE_SIZE / 2.0)
+		var current_position = sprite.position.y
+		if current_position >= target_position:
 			self.__end_fall()
 			return true
 		return false
@@ -97,13 +97,28 @@ func in_bounds(index: Vector2):
 func has_value(index: Vector2):
 	return not self.get_cellv(index) in [-1, TRANSPARENT_TILE_INDEX]
 
+func flood_fill(index: Vector2):
+	var seen = {}
+	self.__flood_fill(index, seen)
+	return seen.keys()
+
+func __flood_fill(index: Vector2, seen: Dictionary):
+	if not self.has_value(index):
+		return
+	seen[index] = true
+	for neighbor in NEIGHBORS:
+		var next = index + neighbor
+		if seen.has(next):
+			continue
+		self.__flood_fill(next, seen)
+	
 func _process(delta: float):
 	self.falling_mutex.lock()
-	var falling_arr = self.falling_array.duplicate()
-	for i in falling_arr.size():
-		var falling = falling_arr[i]
-		if falling.fall(delta):
-			self.falling_array.remove(i)
+	var result = []
+	for falling in self.falling_array:
+		if not falling.fall(delta):
+			result.append(falling)
+	self.falling_array = result
 	self.falling_mutex.unlock()
 
 func _input(event: InputEvent):
@@ -113,8 +128,7 @@ func _input(event: InputEvent):
 func _rock_hit(position: Vector2):
 	var index = self.get_cell_index(position)
 	self.clear_cell(index)
-	for neighbor in NEIGHBORS:
-		self.__drop_cells(index + neighbor)
+	self.__drop_cells(index)
 
 func __clicked(event: InputEventMouseButton):
 	var location = self.to_local(event.position) * self.scale
@@ -139,25 +153,41 @@ func __init_transpose_options(rotation: int):
 	return [flip_x, flip_y, transpose]
 
 func __drop_cells(index: Vector2):
-	if self.__should_drop(index):
-		var target = self.__find_drop(index)
-		var tile = self.get_cellv(index)
-		var rotation = self.__get_rotation(index)
-		var falling = FallData.new(self, index, target, tile, rotation)
-		self.__insert_falling(falling)
+	var drop_cells: Array = self.__determine_drop_indices(index)
+	drop_cells.sort_custom(self, "__y_sort_fall_data")
+	for drop in drop_cells:
+		self.__drop_cell(drop)
 
-func __should_drop(index: Vector2):
-	if not self.in_bounds(index) or not self.has_value(index) or index.y == SIZE.y - 1:
-		return false
-	for direction in NEIGHBORS:
-		if self.has_value(index + direction):
-			return false
-	return true
+func __y_sort_fall_data(a: Vector2, b: Vector2):
+	return a.y > b.y
+	
+func __determine_drop_indices(index: Vector2):
+	var drops = Set.new([])
+	for neighbor in NEIGHBORS:
+		var group = self.flood_fill(index + neighbor)
+		var y_map = self.__y_map(group)
+		if not y_map.has(int(SIZE.y - 1)):
+			drops.add_all(group)
+	return drops.values()
+
+func __y_map(cells: Array):
+	var result = {}
+	for cell in cells:
+		var y = int(cell.y) 
+		result[y] = result.get(y, []) + [cell]
+	return result
+
+func __drop_cell(index: Vector2):
+	var target = self.__find_drop(index)
+	var tile = self.get_cellv(index)
+	var rotation = self.__get_rotation(index)
+	var falling = FallData.new(self, index, target, tile, rotation)
+	self.__insert_falling(falling)
 
 func __find_drop(index: Vector2):
 	var falling_beneath = 0
 	for falling in self.falling_array:
-		if falling.target_index.x == index.x and falling.target_index.y > index.y:
+		if falling.target_index.x == index.x:
 			falling_beneath += 1
 	for y in range(index.y + 1, SIZE.y):
 		if self.has_value(Vector2(index.x, y)):
