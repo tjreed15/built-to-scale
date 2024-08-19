@@ -1,6 +1,7 @@
+class_name TowerMap
 extends TileMap
 
-signal clicked # (x: int, y: int, cell: int) - as indecies, not global coordinates
+signal clicked # (index: Vector2)
 
 const REVERSE_MAP: Dictionary = {
 	2: preload("res://resources/images/stone/elementStone011.png"),
@@ -13,10 +14,10 @@ const SIZE_IN_PIXELS: Vector2 = SIZE * TILE_SIZE
 const TRANSPARENT_TILE_INDEX: int = 6
 const NEIGHBORS = [Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1)]
 const FALL_SPEED: float = 300.0
-const FALL_ACCELL: float = 800.0
+const FALL_ACCELL: float = -ParabolicMover.GRAVITY
 
 class FallData:
-	var tile_map: TileMap
+	var tile_map: TowerMap
 	var target_index: Vector2
 	var target_position: Vector2
 	var tile: int
@@ -29,7 +30,7 @@ class FallData:
 	# warning-ignore:shadowed_variable
 	# warning-ignore:shadowed_variable
 	# warning-ignore:shadowed_variable
-	func _init(tile_map: TileMap, current_index: Vector2, target_index: Vector2, tile: int, rotation: int):
+	func _init(tile_map: TowerMap, current_index: Vector2, target_index: Vector2, tile: int, rotation: int):
 		self.tile_map = tile_map
 		self.target_index = target_index
 		self.target_position = self.tile_map.get_world_cell_position(target_index) + (Vector2.ONE * TILE_SIZE / 2.0)
@@ -114,8 +115,7 @@ func __clicked(event: InputEventMouseButton):
 	var location = self.to_local(event.position) * self.scale
 	if location.x >= 0 and location.y >= 0 and location.x < SIZE_IN_PIXELS.x and location.y < SIZE_IN_PIXELS.y:
 		var index = (location / float(Block.BLOCK_SIZE)).floor()
-		var cell = self.get_cellv(index)
-		self.emit_signal("clicked", int(index.x), int(index.y), cell)
+		self.emit_signal("clicked", index)
 
 func __get_rotation(index: Vector2):
 	var flip_x = self.is_cell_x_flipped(int(index.x), int(index.y))

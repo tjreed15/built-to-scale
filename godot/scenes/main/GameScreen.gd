@@ -6,7 +6,7 @@ const ENEMY_MAX: Vector2 = Vector2(1280 - 70, 700 - 70)
 const SPAWN_RATE: float = 3.0
 const ENEMY_COUNT: int = 5
 
-onready var tile_map: TileMap = $"%TileMap"
+onready var tower_map: TowerMap = $"%TowerMap"
 onready var up_next_button: PrettyButton = $"%UpNextButton"
 
 onready var timer: Timer = Timer.new()
@@ -23,7 +23,7 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	self.timer.connect("timeout", self, "_spawn")
 	self.timer.start(SPAWN_RATE)
-	self.player = Player.new(self.tile_map)
+	self.player = Player.new(self.tower_map)
 	self.player.position = PLAYER_START_POS
 	self.add_child(self.player)
 
@@ -32,7 +32,7 @@ func _next_pressed():
 
 func _spawn():
 	if self.enemies.size() < ENEMY_COUNT:
-		var enemy = Enemy.new(self.tile_map, self.player)
+		var enemy = Enemy.new(self.tower_map, self.player)
 		enemy.position = ENEMY_MIN + (Vector2(randf(), randf()) * (ENEMY_MAX - ENEMY_MIN))
 		self.enemies.append(enemy)
 		enemy.connect("pressed", self, "_enemy_pressed")

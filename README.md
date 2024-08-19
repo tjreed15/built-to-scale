@@ -11,14 +11,9 @@ Play it here: https://tjreed.itch.io/built-to-scale
 
 ## TODO
 * Initial Game Loop
-	* Show disaster in top left with countdown timer
-		* Codify disasters (icon, objective, time)
-	* Implement player character
-		* Build/climb
-		* Attack enemies
-	* Implement enemies
-		* Walk/throw
-		* Damage tower
+	* Simple Player Navigation
+	* Implement Disasters
+	* Add tutotial / story text
 * Extra features
 	* Full Menu
 	* Separate levels

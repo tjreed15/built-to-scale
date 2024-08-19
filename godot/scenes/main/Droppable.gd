@@ -1,7 +1,7 @@
 class_name Droppable
 extends Control
 
-onready var tile_map: TileMap = $TileMap
+onready var tower_map: TowerMap = $TowerMap
 
 
 func can_drop_data(position: Vector2, container):
@@ -16,7 +16,7 @@ func drop_data(position: Vector2, container):
 	block.position = self.__normalize_position(position)
 	for offset in block.get_offsets():
 		var cell_pos = block.position + offset
-		self.tile_map.add_cell(cell_pos, block.get_tilemap_index(), block.block_rotation)
+		self.tower_map.add_cell(cell_pos, block.get_tilemap_index(), block.block_rotation)
 	
 func __get_block_from_data(container: DragContainer) -> Block:
 	if container and container.data and container.data is Block:
@@ -29,6 +29,6 @@ func __normalize_position(position: Vector2):
 func __can_fit_block(block: Block, position: Vector2):
 	for offset in block.get_offsets():
 		var cell_pos = position + offset
-		if not self.tile_map.in_bounds(cell_pos) or self.tile_map.has_value(cell_pos):
+		if not self.tower_map.in_bounds(cell_pos) or self.tower_map.has_value(cell_pos):
 			return false
 	return true
