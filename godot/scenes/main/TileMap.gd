@@ -11,9 +11,9 @@ const TILE_SIZE: int = Block.BLOCK_SIZE
 const SIZE: Vector2 = Vector2(26, 15)
 const SIZE_IN_PIXELS: Vector2 = SIZE * TILE_SIZE
 const TRANSPARENT_TILE_INDEX: int = 6
-const NEIGHBORS = [Vector2(-1, 0), Vector2(0, -1), Vector2(1, 0), Vector2(0, 1)]
+const NEIGHBORS = [Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1)]
 const FALL_SPEED: float = 300.0
-const FALL_ACCELL: float = 250.0
+const FALL_ACCELL: float = 800.0
 
 class FallData:
 	var tile_map: TileMap
@@ -57,6 +57,7 @@ class FallData:
 		self.sprite.queue_free()
 		self.tile_map.add_cell(self.target_index, self.tile, self.rotation)
 
+var falling_mutex: Mutex = Mutex.new()
 var falling_array: Array = []
 
 func _ready():
@@ -89,11 +90,13 @@ func has_value(index: Vector2):
 	return not self.get_cellv(index) in [-1, TRANSPARENT_TILE_INDEX]
 
 func _process(delta: float):
+	self.falling_mutex.lock()
 	var falling_arr = self.falling_array.duplicate()
 	for i in falling_arr.size():
 		var falling = falling_arr[i]
 		if falling.fall(delta):
 			self.falling_array.remove(i)
+	self.falling_mutex.unlock()
 
 func _input(event: InputEvent):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
@@ -134,7 +137,7 @@ func __drop_cells(index: Vector2):
 		var tile = self.get_cellv(index)
 		var rotation = self.__get_rotation(index)
 		var falling = FallData.new(self, index, target, tile, rotation)
-		self.falling_array.append(falling)
+		self.__insert_falling(falling)
 
 func __should_drop(index: Vector2):
 	if not self.in_bounds(index) or not self.has_value(index) or index.y == SIZE.y - 1:
@@ -145,8 +148,16 @@ func __should_drop(index: Vector2):
 	return true
 
 func __find_drop(index: Vector2):
-	for y in range(index.y + 1, SIZE.y - 1):
+	var falling_beneath = 0
+	for falling in self.falling_array:
+		if falling.target_index.x == index.x and falling.target_index.y > index.y:
+			falling_beneath += 1
+	for y in range(index.y + 1, SIZE.y):
 		if self.has_value(Vector2(index.x, y)):
-			return Vector2(index.x, y - 1)
-	return Vector2(index.x, SIZE.y - 1)
+			return Vector2(index.x, y - 1 - falling_beneath)
+	return Vector2(index.x, SIZE.y - 1 - falling_beneath)
 		
+func __insert_falling(falling: FallData):
+	self.falling_mutex.lock()
+	self.falling_array.append(falling)
+	self.falling_mutex.lock()

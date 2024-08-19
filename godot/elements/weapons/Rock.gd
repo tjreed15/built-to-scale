@@ -32,7 +32,7 @@ func throw(origin: Node2D):
 func _ready():
 	self.fire_velocity = self.__calculate_initial_velocity(self.position, self.target_position)
 
-func _physics_process(delta):
+func _process(delta):
 	self.translate(self.fire_velocity * delta)
 	self.fire_velocity.y -= GRAVITY * delta
 	if self.position.distance_squared_to(self.target_position) <= HIT_DIST:
