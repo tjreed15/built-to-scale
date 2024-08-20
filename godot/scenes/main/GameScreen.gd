@@ -4,16 +4,17 @@ extends Node
 signal phase_won
 signal game_won
 signal game_lost
+signal tutorial_step_finished
 
 const PLAYER_START_POS: Vector2 = Vector2(200 + 70, 525 - 70)
 
 onready var tower_map: TowerMap = $"%TowerMap"
 onready var right_panel: VBoxContainer = $"%RightPanel"
+onready var tutorial_cover: TutorialCover = $"%TutorialCover"
 
 var player: Player
 var disaster_array: Array
 var current_disaster: Disaster
-var level_wrapper: WeakRef
 
 func _ready():
 	self.player = Player.new(self.tower_map)
@@ -21,11 +22,19 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	self.player.connect("died", self, "_player_died")
 	self.add_child(self.player)
+	# warning-ignore:return_value_discarded
+	self.tutorial_cover.connect("finished", self, "_tutorial_step_finished")
 
 # warning-ignore:shadowed_variable
 func set_level_wrapper(level_wrapper):
-	self.level_wrapper = weakref(level_wrapper)
 	level_wrapper.added(self)
+	self.add_child(level_wrapper)
+
+func show_tutorial(text: String):
+	self.tutorial_cover.popup(text)
+
+func _tutorial_step_finished():
+	self.emit_signal("tutorial_step_finished")
 
 func _enemy_pressed(enemy: Enemy):
 	self.player.target_enemy(enemy)
@@ -43,7 +52,7 @@ func __build_disaster_buttons():
 	for disaster in self.disaster_array:
 		var button = PrettyButton.new()
 		button.direction = Vector2.DOWN
-		button.text = disaster.disaster_name + "\n" + NodeUtils.get_time_string(disaster.duration)
+		button.text = disaster.get_text() + "\n" + NodeUtils.get_time_string(disaster.duration)
 		button.icon_size = 60
 		button.icon_name = disaster.icon
 		button.rect_min_size = Vector2.ONE * 170
@@ -75,7 +84,7 @@ func win_level():
 	self.emit_signal("game_won")
 
 func __update_time(time_left: float):
-	self.right_panel.get_children()[0].text = self.current_disaster.disaster_name + "\n" + NodeUtils.get_time_string(time_left)
+	self.right_panel.get_children()[0].text = self.current_disaster.get_text() + "\n" + NodeUtils.get_time_string(time_left)
 
 func __disaster_finished(success: bool):
 	if success:

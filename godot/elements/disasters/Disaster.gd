@@ -32,6 +32,10 @@ func start(player: Player, tower_map: TowerMap):
 	self.tower_map = tower_map
 	self.time_left = self.duration
 
+# This can be overridden by subclasses
+func get_text():
+	return self.disaster_name
+
 # This should be overridden by subclasses
 func reset():
 	pass

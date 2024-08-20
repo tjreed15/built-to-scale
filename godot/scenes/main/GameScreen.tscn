@@ -1,5 +1,6 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
+[ext_resource path="res://elements/tutorials/TutorialCover.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/wood/elementWood010.png" type="Texture" id=2]
 [ext_resource path="res://resources/images/wood/elementWood013.png" type="Texture" id=3]
 [ext_resource path="res://resources/images/stone/elementStone011.png" type="Texture" id=4]
@@ -276,3 +277,23 @@ margin_left = 15.0
 margin_right = 190.0
 margin_bottom = 525.0
 rect_min_size = Vector2( 175, 525 )
+
+[node name="TutorialCover" type="Control" parent="."]
+pause_mode = 2
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="CenterContainer" type="CenterContainer" parent="TutorialCover"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 525.0
+
+[node name="TutorialCoverButton" type="Button" parent="TutorialCover/CenterContainer"]
+unique_name_in_owner = true
+margin_left = 377.0
+margin_top = 72.0
+margin_right = 903.0
+margin_bottom = 123.0
+text = "Tutorial Text - Click this to advance"

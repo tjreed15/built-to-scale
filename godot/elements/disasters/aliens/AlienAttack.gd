@@ -13,7 +13,7 @@ var enemies: Array = []
 
 onready var spawn_timer: Timer = Timer.new()
 
-func _init(duration: float).(NAME, ICON, duration):
+func _init(duration: float, spawn_rate: float = SPAWN_RATE).(NAME, ICON, duration):
 	pass
 
 func _ready():

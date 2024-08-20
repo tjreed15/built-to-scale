@@ -103,6 +103,16 @@ _global_script_classes=[ {
 "class": "TowerMap",
 "language": "GDScript",
 "path": "res://scenes/main/TowerMap.gd"
+}, {
+"base": "Control",
+"class": "TutorialCover",
+"language": "GDScript",
+"path": "res://elements/tutorials/TutorialCover.gd"
+}, {
+"base": "Reference",
+"class": "TutorialStep",
+"language": "GDScript",
+"path": "res://elements/tutorials/TutorialStep.gd"
 } ]
 _global_script_class_icons={
 "AlienAttack": "",
@@ -123,7 +133,9 @@ _global_script_class_icons={
 "RoundedCornerControl": "",
 "Set": "",
 "ThemedColorRect": "",
-"TowerMap": ""
+"TowerMap": "",
+"TutorialCover": "",
+"TutorialStep": ""
 }
 
 [application]
