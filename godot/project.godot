@@ -123,6 +123,11 @@ _global_script_classes=[ {
 "class": "TutorialStep",
 "language": "GDScript",
 "path": "res://elements/tutorials/TutorialStep.gd"
+}, {
+"base": "Disaster",
+"class": "Wind",
+"language": "GDScript",
+"path": "res://elements/disasters/wind/Wind.gd"
 } ]
 _global_script_class_icons={
 "AlienAttack": "",
@@ -147,7 +152,8 @@ _global_script_class_icons={
 "ThemedColorRect": "",
 "TowerMap": "",
 "TutorialCover": "",
-"TutorialStep": ""
+"TutorialStep": "",
+"Wind": ""
 }
 
 [application]

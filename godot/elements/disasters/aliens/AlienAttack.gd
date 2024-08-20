@@ -22,7 +22,7 @@ func _ready():
 	self.add_child(self.spawn_timer)
 	# warning-ignore:return_value_discarded
 	self.spawn_timer.connect("timeout", self, "_spawn")
-	self.spawn_timer.start(SPAWN_RATE)
+	self.spawn_timer.start(self.spawn_rate)
 
 func reset():
 	for enemy in self.enemies:

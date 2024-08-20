@@ -78,7 +78,6 @@ func reset():
 	self.__add_initial_tiles()
 	self.falling_mutex.unlock()
 	self.falling_array = []
-	
 
 func add_cell(pos: Vector2, tile: int, rotation: int):
 	var options = self.__init_transpose_options(rotation)
@@ -115,6 +114,12 @@ func get_col_min_below(index: Vector2):
 		if falling.target_index.x == index.x and falling.target_index.y > index.y:
 			result = min(result, falling.target_index.y)
 	return result
+
+func get_min_cell():
+	var minimum = self.SIZE.y
+	for cell in self.get_used_cells():
+		minimum = min(minimum, cell.y)
+	return minimum
 
 func flood_fill(index: Vector2):
 	var seen = {}
@@ -241,5 +246,3 @@ func __add_initial_tiles():
 			self.set_cell(col, row, TRANSPARENT_TILE_INDEX)
 	for col in 4:
 		self.add_cell(Vector2(col, SIZE.y - 1), 2, 0)
-	for vector in [Vector2(1, SIZE.y - 3), Vector2(2, SIZE.y - 2), Vector2(2, SIZE.y - 3), Vector2(2, SIZE.y - 4)]:
-		self.add_cell(vector, 2, 0)

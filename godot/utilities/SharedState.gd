@@ -23,27 +23,45 @@ func get_level(index: int):
 func get_levels():
 	return [
 		LevelWrapper.new(
-			"Flood",
-			[Flood.new(35.0)],
-			[]
+			"Tutorial - Intro",
+			[Wind.new(20.0)],
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "This is tutorial text. Click it!"),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "Drag blocks in from the left to build your tower."),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "You have 20 seconds to build above the blue line!"),
+			]
+		),
+		LevelWrapper.new(
+			"Tutorial - Climbing",
+			[Flood.new(20.0)],
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "This time, the forecast predicts a flood, not just wind!"),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "Once you build your tower high enough,\nclick on a block to jump on top of it!"),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "You can land on any block (even floating ones).\nBut if your tower is unstable it will crumble!"),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "To succeed, you must be higher than the blue line\nwhen the flood hits!"),
+			]
 		),
 		LevelWrapper.new(
 			"Aliens!",
 			[AlienAttack.new(15.0)],
-			[]
-		),
-		LevelWrapper.new(
-			"Tutorial",
-			[Flood.new(10.0), AlienAttack.new(15.0, 0.75), AlienAttack.new(15.0, 1.5), Flood.new(1.0, 10)], 
 			[
-				TutorialStep.new(TutorialStep.Trigger.START, "This is tutorial text. Click it!"),
-				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "Drag blocks in from the left to build a tower to help\nyou escape from the coming flood!\n(Great weather forecasting on the right)."),
-				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "You have 10 seconds to get above the blue line\nor else you will drown!"),
-				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "Once you build up high enough,\nclick on a block to climb on top of it!"),
-				TutorialStep.new(TutorialStep.Trigger.NEXT_PHASE, "You have escaped the flood!\nNow you need to face the alien mobsters!\n(Even more impressive than a weather forecast :D)"),
+				TutorialStep.new(TutorialStep.Trigger.START, "The forecast predicts Alien Mobsters!\n(Even more impressive than a weather forecast :D)"),
 				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "They will throw rocks at your tower to knock it down.\nThrow rocks at them first (by clicking them)."),
 				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "You must survive for 15 seconds without\nfalling to the ground (which is lava :O)!"),
-				TutorialStep.new(TutorialStep.Trigger.NEXT_PHASE, "Keep going to survive the next two waves!\nThe last one comes up fast.\nYou might want to build higher now!"),
 			]
+		),
+		LevelWrapper.new(
+			"Multiple Threats",
+			[Flood.new(15.0), AlienAttack.new(30.0, 1.5), Flood.new(1.0, 8)], 
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "The forecast has multiple threats!\nComplete each one back to back!"),
+				TutorialStep.new(TutorialStep.Trigger.NEXT_PHASE, "You have escaped the flood!\nNow you need to face the aliens again!"),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "Keep going to survive the next two waves!\nThe last one comes up fast.\nYou might want to build higher now!"),
+			]
+		),
+		LevelWrapper.new(
+			"No more tutorial",
+			[Flood.new(10.0), AlienAttack.new(30.0, 0.5), Flood.new(1.0, 10)], 
+			[]
 		),
 	]
