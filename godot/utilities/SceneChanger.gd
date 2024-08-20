@@ -2,6 +2,8 @@ extends Node
 
 enum Scene {
 	MAIN_MENU,
+	LEVEL_SELECT,
+	CREDITS,
 	GAME,
 }
 
@@ -17,6 +19,8 @@ class ChangeSceneArgs:
 
 const INITIAL_SCENE = Scene.MAIN_MENU
 const MAIN_MENU_PACKED_SCENE = preload("res://scenes/menu/main_menu/MainMenu.tscn")
+const LEVEL_SELECT_PACKED_SCENE = preload("res://scenes/menu/level_select/LevelSelect.tscn")
+const CREDITS_PACKED_SCENE = preload("res://scenes/menu/credits/Credits.tscn")
 const GAME_PACKED_SCENE = preload("res://scenes/main/GameScreen.tscn")
 
 const REDISPLAYED_METHOD: String = "_scene_changer_redisplayed"
@@ -26,6 +30,8 @@ onready var scene_changer_root = self.get_node("/root/SceneChangerRoot")
 
 var PACKED_SCENE_MAP: Dictionary = {
 	Scene.MAIN_MENU: MAIN_MENU_PACKED_SCENE,
+	Scene.LEVEL_SELECT: LEVEL_SELECT_PACKED_SCENE,
+	Scene.CREDITS: CREDITS_PACKED_SCENE,
 	Scene.GAME: GAME_PACKED_SCENE,
 }
 

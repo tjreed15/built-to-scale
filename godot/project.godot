@@ -74,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utilities/ParabolicMover.gd"
 }, {
+"base": "Control",
+"class": "PauseScreen",
+"language": "GDScript",
+"path": "res://scenes/main/PauseScreen.gd"
+}, {
 "base": "Node2D",
 "class": "Player",
 "language": "GDScript",
@@ -133,6 +138,7 @@ _global_script_class_icons={
 "LevelOverScreen": "",
 "LevelWrapper": "",
 "ParabolicMover": "",
+"PauseScreen": "",
 "Player": "",
 "PrettyButton": "",
 "Rock": "",
@@ -173,6 +179,14 @@ enabled=PoolStringArray( "res://addons/font-awesome-6/plugin.cfg" )
 
 common/drop_mouse_on_gui_input_disabled=true
 theme/custom="res://resources/themes/default_theme.tres"
+
+[input]
+
+pause={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [physics]
 

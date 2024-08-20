@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://elements/tutorials/TutorialCover.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/wood/elementWood010.png" type="Texture" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://scenes/main/LevelOverScreen.gd" type="Script" id=15]
 [ext_resource path="res://resources/fonts/sans-bold-48.tres" type="DynamicFont" id=16]
 [ext_resource path="res://resources/fonts/sans-regular-64.tres" type="DynamicFont" id=17]
+[ext_resource path="res://scenes/main/PauseScreen.gd" type="Script" id=18]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -225,6 +226,7 @@ theme_type_variation = "SecondaryThemedColorRect"
 [node name="Background" type="ColorRect" parent="Left"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = -195.0
 color = Color( 1, 1, 1, 0.32549 )
 
 [node name="Draggable" type="Control" parent="Left"]
@@ -249,12 +251,24 @@ margin_bottom = -180.0
 script = ExtResource( 9 )
 temp = 2
 
-[node name="Draggable4" type="Control" parent="Left"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="PauseButtonWrapper" type="CenterContainer" parent="Left"]
 margin_top = 540.0
-script = ExtResource( 9 )
-temp = 3
+margin_right = 200.0
+margin_bottom = 720.0
+
+[node name="PauseButton" type="Control" parent="Left/PauseButtonWrapper"]
+unique_name_in_owner = true
+margin_left = 25.0
+margin_top = 40.0
+margin_right = 175.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 150, 100 )
+theme_type_variation = "WinScreenButton"
+script = ExtResource( 14 )
+direction = Vector2( -1, 0 )
+text = " Pause"
+icon_size = 32
+icon_name = "pause"
 
 [node name="Right" type="Control" parent="."]
 anchor_left = 1.0
@@ -270,21 +284,18 @@ anchor_bottom = 1.0
 margin_right = 2.0
 margin_bottom = -195.0
 
-[node name="CenterContainer" type="CenterContainer" parent="Right"]
+[node name="RightPanel" type="VBoxContainer" parent="Right"]
+unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -195.0
-
-[node name="RightPanel" type="VBoxContainer" parent="Right/CenterContainer"]
-unique_name_in_owner = true
-margin_left = 15.0
-margin_right = 190.0
-margin_bottom = 525.0
-rect_min_size = Vector2( 175, 525 )
+rect_min_size = Vector2( 150, 425 )
+rect_clip_content = true
 
 [node name="TutorialCover" type="Control" parent="."]
 pause_mode = 2
 unique_name_in_owner = true
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -379,3 +390,69 @@ rect_min_size = Vector2( 400, 100 )
 theme_type_variation = "WinScreenButton"
 script = ExtResource( 14 )
 text = "Next Level"
+
+[node name="PauseScreen" type="Control" parent="."]
+pause_mode = 2
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 18 )
+
+[node name="Blur" type="ColorRect" parent="PauseScreen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="BlurButton" type="Button" parent="PauseScreen/Blur"]
+unique_name_in_owner = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+flat = true
+
+[node name="Label" type="Label" parent="PauseScreen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -360.0
+custom_fonts/font = ExtResource( 17 )
+text = "Paused!"
+align = 1
+valign = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="PauseScreen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 360.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PauseScreen/CenterContainer"]
+margin_left = 325.0
+margin_top = 105.0
+margin_right = 955.0
+margin_bottom = 255.0
+custom_constants/separation = 30
+alignment = 1
+
+[node name="MainMenuButton" type="Control" parent="PauseScreen/CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_right = 300.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 300, 150 )
+theme_type_variation = "WinScreenButton"
+script = ExtResource( 14 )
+direction = Vector2( -1, 0 )
+text = " Main Menu"
+icon_size = 32
+icon_name = "arrow-left"
+
+[node name="ResumeButton" type="Control" parent="PauseScreen/CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 330.0
+margin_right = 630.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 300, 150 )
+theme_type_variation = "WinScreenButton"
+script = ExtResource( 14 )
+direction = Vector2( -1, 0 )
+text = " Resume"
+icon_size = 32
+icon_name = "play"

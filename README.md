@@ -11,10 +11,9 @@ Play it here: https://tjreed.itch.io/built-to-scale
 
 ## TODO
 * Feature Development
-	* Show next disaster hint
-	* Flash timer
 	* Main menu
 	* Level design / order / tutorials
+	* Pause Menu
 	* New disasters 
 	* New alien types?
 	* Last level --> Find pet (stolen by aliens)

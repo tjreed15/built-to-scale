@@ -1,12 +1,11 @@
 extends Node
 
-const MAX_LEVEL_COUNT: int = 3
-
 var current_level_index: int = 0
 var current_level: LevelWrapper
 
 func has_next_level():
-	return self.current_level_index < MAX_LEVEL_COUNT - 1
+	var levels = self.get_levels()
+	return self.current_level_index < levels.size() - 1
 
 func select_level(index: int):
 	self.current_level_index = index
@@ -19,19 +18,22 @@ func next_level():
 	self.select_level(self.current_level_index + 1)
 
 func get_level(index: int):
-	if index >= MAX_LEVEL_COUNT:
-		return null
+	return self.get_levels()[index]
 	
-	match index:
-		0: return LevelWrapper.new(
+func get_levels():
+	return [
+		LevelWrapper.new(
+			"Flood",
 			[Flood.new(35.0)],
 			[]
-		)
-		1: return LevelWrapper.new(
+		),
+		LevelWrapper.new(
+			"Aliens!",
 			[AlienAttack.new(15.0)],
 			[]
-		)
-		2: return LevelWrapper.new(
+		),
+		LevelWrapper.new(
+			"Tutorial",
 			[Flood.new(10.0), AlienAttack.new(15.0, 0.75), AlienAttack.new(15.0, 1.5), Flood.new(1.0, 10)], 
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "This is tutorial text. Click it!"),
@@ -43,4 +45,5 @@ func get_level(index: int):
 				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "You must survive for 15 seconds without\nfalling to the ground (which is lava :O)!"),
 				TutorialStep.new(TutorialStep.Trigger.NEXT_PHASE, "Keep going to survive the next two waves!\nThe last one comes up fast.\nYou might want to build higher now!"),
 			]
-		)
+		),
+	]

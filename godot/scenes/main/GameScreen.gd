@@ -8,13 +8,17 @@ signal tutorial_step_finished
 
 const PLAYER_START_POS: Vector2 = Vector2(200 + 70, 525 - 70)
 const TIMER_LABEL_MAX_TIME: int = 5
+const DISASTER_BUTTON_SIZE: float = 175.0
+const DISASTER_BUTTON_ICON_SIZE: float = 60.0
 
 onready var tower_map: TowerMap = $"%TowerMap"
 onready var right_panel: VBoxContainer = $"%RightPanel"
+onready var pause_button: PrettyButton = $"%PauseButton"
 onready var tutorial_cover: TutorialCover = $"%TutorialCover"
 onready var timer_label_container: Control = $"%TimerLabelContainer"
 onready var timer_label: Label = $"%TimerLabel"
 onready var level_over_screen: LevelOverScreen = $"%LevelOverScreen"
+onready var pause_screen: PauseScreen = $"%PauseScreen"
 
 var player: Player
 var disaster_array: Array
@@ -27,13 +31,22 @@ func _ready():
 	self.player.connect("died", self, "_player_died")
 	self.add_child(self.player)
 	# warning-ignore:return_value_discarded
+	self.pause_button.connect("pressed", self, "_pause_button_pressed")
+	# warning-ignore:return_value_discarded
 	self.tutorial_cover.connect("finished", self, "_tutorial_step_finished")
 	self.__init_level_wrapper()
+
+func _input(_event: InputEvent):
+	if Input.is_action_just_pressed("pause"):
+		self._pause_button_pressed()
 
 func __init_level_wrapper():
 	var level_wrapper = SharedState.current_level
 	level_wrapper.added(self)
 	self.add_child(level_wrapper)
+
+func _pause_button_pressed():
+	self.pause_screen.pause()
 
 func show_tutorial(text: String):
 	self.tutorial_cover.popup(text)
@@ -63,9 +76,9 @@ func __build_disaster_buttons():
 		var button = PrettyButton.new()
 		button.direction = Vector2.DOWN
 		button.text = disaster.get_text() + "\n" + NodeUtils.get_time_string(disaster.duration)
-		button.icon_size = 60
+		button.icon_size = DISASTER_BUTTON_ICON_SIZE
 		button.icon_name = disaster.icon
-		button.rect_min_size = Vector2.ONE * 170
+		button.rect_min_size = Vector2.ONE * DISASTER_BUTTON_SIZE
 		button.theme_type_variation = "NaturalDisasterButton"
 		self.right_panel.add_child(button)
 

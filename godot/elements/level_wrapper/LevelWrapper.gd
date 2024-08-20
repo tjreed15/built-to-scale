@@ -2,13 +2,16 @@ class_name LevelWrapper
 extends Node
 
 var game_screen: GameScreen
+var level_name: String
 var disaster_array: Array = []
 var tutorial_steps: Array = []
 var current_tutorial_step: TutorialStep
 
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
-func _init(disaster_array: Array, tutorial_steps: Array):
+# warning-ignore:shadowed_variable
+func _init(level_name: String, disaster_array: Array, tutorial_steps: Array):
+	self.level_name = level_name
 	self.disaster_array = disaster_array
 	self.tutorial_steps = tutorial_steps
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
