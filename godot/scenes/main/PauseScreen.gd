@@ -3,6 +3,7 @@ extends Control
 
 onready var blurr_button: Button = $"%BlurButton"
 onready var main_menu_button: PrettyButton = $"%MainMenuButton"
+onready var retry_button: PrettyButton = $"%RetryButton"
 onready var resume_button: PrettyButton = $"%ResumeButton"
 
 func _ready():
@@ -11,6 +12,8 @@ func _ready():
 	self.blurr_button.connect("pressed", self, "_blur_pressed")
 	# warning-ignore:return_value_discarded
 	self.main_menu_button.connect("pressed", self, "_main_menu_pressed")
+	# warning-ignore:return_value_discarded
+	self.retry_button.connect("pressed", self, "_retry_pressed")
 	# warning-ignore:return_value_discarded
 	self.resume_button.connect("pressed", self, "_resume_pressed")
 
@@ -23,6 +26,10 @@ func _blur_pressed():
 
 func _main_menu_pressed():
 	SceneChanger.change_scene(SceneChanger.Scene.MAIN_MENU)
+
+func _retry_pressed():
+	SharedState.retry_level()
+	SceneChanger.change_scene(SceneChanger.Scene.GAME)
 
 func _resume_pressed():
 	self.__resume_game()

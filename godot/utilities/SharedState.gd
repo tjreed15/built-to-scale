@@ -13,6 +13,7 @@ func select_level(index: int):
 
 func retry_level():
 	self.select_level(self.current_level_index)
+	self.__clear_tutorial_steps()
 
 func next_level():
 	self.select_level(self.current_level_index + 1)
@@ -88,3 +89,16 @@ func get_levels():
 			]
 		),
 	]
+
+func __clear_tutorial_steps():
+	var index = -1
+	for i in self.current_level.tutorial_steps.size():
+		var step = self.current_level.tutorial_steps[i]
+		if step.trigger == TutorialStep.Trigger.NEXT_PHASE:
+			index = i
+	
+	var result = [TutorialStep.new(TutorialStep.Trigger.START, "Start")]
+	if index >= 0:
+		for i in range(index, self.current_level.tutorial_steps.size()):
+			result.append(self.current_level.tutorial_steps[i])
+	self.current_level.tutorial_steps = result
