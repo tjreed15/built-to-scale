@@ -10,11 +10,13 @@ const SPAWN_RATE: float = 3.0
 const ENEMY_COUNT: int = 5
 
 var enemies: Array = []
+var spawn_rate: float
 
 onready var spawn_timer: Timer = Timer.new()
 
+# warning-ignore:shadowed_variable
 func _init(duration: float, spawn_rate: float = SPAWN_RATE).(NAME, ICON, duration):
-	pass
+	self.spawn_rate = spawn_rate
 
 func _ready():
 	self.add_child(self.spawn_timer)

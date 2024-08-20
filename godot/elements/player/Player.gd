@@ -5,7 +5,7 @@ signal died
 
 const image = preload("res://resources/images/aliens/alienGreen_suit.png")
 const JUMP_TIME: float = 0.3
-const FALL_TIME: float = 0.5
+const FALL_TIME_PER_SQUARE: float = 0.05
 const HIT_DIST: float = 35.0
 const CHECK_SQUARES: Array = [Vector2.ZERO, Vector2.LEFT, Vector2.UP, -Vector2.ONE]
 
@@ -74,14 +74,15 @@ func __has_space_to_land(index: Vector2):
 			return false
 	return true
 
-func _tower_cell_cleared(_index: Vector2):
+func _tower_cell_cleared():
 	if self.moving:
 		return
 	var location = self.get_tower_index()
 	if not self.can_stand_at(location):
-		var fall_y_index_right = self.tower_map.get_col_min_max(location.x)
-		var fall_y_index_left = self.tower_map.get_col_min_max(location.x - 1)
+		var fall_y_index_right = self.tower_map.get_col_min_below(location)
+		var fall_y_index_left = self.tower_map.get_col_min_below(location + Vector2.LEFT)
 		var fall_y_index = min(fall_y_index_right, fall_y_index_left) - 1
 		var fall_to = self.tower_map.get_global_cell_position(Vector2(location.x, fall_y_index))
-		self.parabolic_mover.start(fall_to, FALL_TIME)
+		var fall_time = (fall_y_index - location.y) * FALL_TIME_PER_SQUARE
+		self.parabolic_mover.start(fall_to, fall_time)
 		self.moving = true

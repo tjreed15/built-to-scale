@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://elements/tutorials/TutorialCover.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/wood/elementWood010.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://scenes/main/GameScreen.gd" type="Script" id=11]
 [ext_resource path="res://scenes/main/TowerMap.gd" type="Script" id=12]
 [ext_resource path="res://resources/images/transparent.png" type="Texture" id=13]
+[ext_resource path="res://components/PrettyButton.gd" type="Script" id=14]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -290,10 +291,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 525.0
 
-[node name="TutorialCoverButton" type="Button" parent="TutorialCover/CenterContainer"]
+[node name="TutorialCoverButton" type="Control" parent="TutorialCover/CenterContainer"]
 unique_name_in_owner = true
-margin_left = 377.0
-margin_top = 72.0
-margin_right = 903.0
-margin_bottom = 123.0
-text = "Tutorial Text - Click this to advance"
+margin_left = 90.0
+margin_top = 22.0
+margin_right = 1190.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 1100, 150 )
+theme_type_variation = "TutorialButton"
+script = ExtResource( 14 )
+text = "This is tutorial text. Click it!"

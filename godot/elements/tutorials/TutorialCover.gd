@@ -3,7 +3,7 @@ extends Control
 
 signal finished
 
-onready var button: Button = $"%TutorialCoverButton"
+onready var button: PrettyButton = $"%TutorialCoverButton"
 
 func _ready():
 	# warning-ignore:return_value_discarded
