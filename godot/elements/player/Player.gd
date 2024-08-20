@@ -75,7 +75,8 @@ func _finish_jump():
 	if not self.jump_was_fall:
 		var below = index + Vector2.DOWN
 		var below_left = below + Vector2.LEFT
-		self.tower_map.attempt_clear([below, below_left])
+		if below.y < TowerMap.SIZE.y - 1:
+			self.tower_map.attempt_clear([below, below_left])
 
 func _check_rock_hit(rock: Rock):
 	return rock.position.distance_to(self.position) < HIT_DIST
