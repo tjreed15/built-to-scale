@@ -241,3 +241,5 @@ func __add_initial_tiles():
 			self.set_cell(col, row, TRANSPARENT_TILE_INDEX)
 	for col in 4:
 		self.add_cell(Vector2(col, SIZE.y - 1), 2, 0)
+	for vector in [Vector2(1, SIZE.y - 3), Vector2(2, SIZE.y - 2), Vector2(2, SIZE.y - 3), Vector2(2, SIZE.y - 4)]:
+		self.add_cell(vector, 2, 0)

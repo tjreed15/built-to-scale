@@ -27,7 +27,7 @@ func _init(disaster_name: String, icon: String, duration: float):
 	# warning-ignore:return_value_discarded
 	self.timer.connect("timeout", self, "_tic")
 
-func start(player: Player, tower_map: TowerMap):
+func initialize(player: Player, tower_map: TowerMap):
 	self.player = player
 	self.tower_map = tower_map
 	self.time_left = self.duration
@@ -36,12 +36,17 @@ func start(player: Player, tower_map: TowerMap):
 func get_text():
 	return self.disaster_name
 
+# This can be overridden by subclasses
+func add_hint(_node: Node):
+	pass
+
 # This should be overridden by subclasses
 func reset():
 	pass
 
 func _ready():
 	self.timer.start(1.0)
+	self.add_hint(self)
 
 func _tic():
 	self.time_left -= 1.0

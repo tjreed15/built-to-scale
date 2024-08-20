@@ -7,10 +7,13 @@ signal game_lost
 signal tutorial_step_finished
 
 const PLAYER_START_POS: Vector2 = Vector2(200 + 70, 525 - 70)
+const TIMER_LABEL_MAX_TIME: int = 5
 
 onready var tower_map: TowerMap = $"%TowerMap"
 onready var right_panel: VBoxContainer = $"%RightPanel"
 onready var tutorial_cover: TutorialCover = $"%TutorialCover"
+onready var timer_label_container: Control = $"%TimerLabelContainer"
+onready var timer_label: Label = $"%TimerLabel"
 onready var level_over_screen: LevelOverScreen = $"%LevelOverScreen"
 
 var player: Player
@@ -47,8 +50,13 @@ func _player_died():
 # warning-ignore:shadowed_variable
 func launch_disasters(disaster_array: Array):
 	self.disaster_array = disaster_array
+	self.__initialize_disasters()
 	self.__build_disaster_buttons()
 	self.__start_next_disaster()
+
+func __initialize_disasters():
+	for disaster in self.disaster_array:
+		disaster.initialize(self.player, self.tower_map)
 
 func __build_disaster_buttons():
 	for disaster in self.disaster_array:
@@ -73,11 +81,13 @@ func __start_next_disaster():
 	if not self.current_disaster:
 		return self.win_level()
 	
+	if self.disaster_array.size() > 0:
+		self.disaster_array[0].add_hint(self.current_disaster)
+	
 	# warning-ignore:return_value_discarded
 	self.current_disaster.connect("tic", self, "__update_time")
 	# warning-ignore:return_value_discarded
 	self.current_disaster.connect("finished", self, "__disaster_finished")
-	self.current_disaster.start(self.player, self.tower_map)
 	self.add_child(self.current_disaster)
 
 func win_level():
@@ -91,10 +101,19 @@ func lose_level():
 	self.player.animate_death()
 	self.level_over_screen.lose()
 
+const TIMER_LABEL_PULSE_TIME: float = 0.25
+
 func __update_time(time_left: float):
 	self.right_panel.get_children()[0].text = self.current_disaster.get_text() + "\n" + NodeUtils.get_time_string(time_left)
+	if time_left <= TIMER_LABEL_MAX_TIME:
+		self.timer_label_container.show()
+		self.timer_label.text = String(time_left)
+		var tween = self.create_tween()
+		tween.tween_property(self.timer_label, "rect_scale", Vector2.ONE * 1.5, TIMER_LABEL_PULSE_TIME)
+		tween.tween_property(self.timer_label, "rect_scale", Vector2.ONE * 0.5, 1 - TIMER_LABEL_PULSE_TIME)
 
 func __disaster_finished(success: bool):
+	self.timer_label_container.hide()
 	if success:
 		self.__start_next_disaster()
 		self.emit_signal("phase_won")

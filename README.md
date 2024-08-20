@@ -10,12 +10,13 @@ Play it here: https://tjreed.itch.io/built-to-scale
 * Built for macOS and web (needs to be built for windows)
 
 ## TODO
-* Initial Game Loop
-	* Implement Waves
-		* Add tutorial steps as waves?
-	* Add tutotial / story text
-* Extra features
-	* Full Menu
-	* Separate levels
+* Feature Development
+	* Show next disaster hint
+	* Flash timer
+	* Main menu
+	* Level design / order / tutorials
+	* New disasters 
+	* New alien types?
+	* Last level --> Find pet (stolen by aliens)
 * Nice to have
 	* Story line

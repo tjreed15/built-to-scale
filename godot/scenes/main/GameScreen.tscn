@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://elements/tutorials/TutorialCover.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/wood/elementWood010.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://components/PrettyButton.gd" type="Script" id=14]
 [ext_resource path="res://scenes/main/LevelOverScreen.gd" type="Script" id=15]
 [ext_resource path="res://resources/fonts/sans-bold-48.tres" type="DynamicFont" id=16]
+[ext_resource path="res://resources/fonts/sans-regular-64.tres" type="DynamicFont" id=17]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -303,6 +304,25 @@ rect_min_size = Vector2( 1100, 150 )
 theme_type_variation = "TutorialButton"
 script = ExtResource( 14 )
 text = "This is tutorial text. Click it!"
+
+[node name="TimerLabelContainer" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 200 )
+
+[node name="TimerLabel" type="Label" parent="TimerLabelContainer"]
+unique_name_in_owner = true
+margin_left = 621.0
+margin_top = 56.0
+margin_right = 658.0
+margin_bottom = 144.0
+rect_pivot_offset = Vector2( 18, 44 )
+custom_fonts/font = ExtResource( 17 )
+text = "5"
+align = 1
+valign = 1
 
 [node name="LevelOverScreen" type="Control" parent="."]
 pause_mode = 2

@@ -1,7 +1,12 @@
 extends Node
 
+const MAX_LEVEL_COUNT: int = 3
+
 var current_level_index: int = 0
 var current_level: LevelWrapper
+
+func has_next_level():
+	return self.current_level_index < MAX_LEVEL_COUNT - 1
 
 func select_level(index: int):
 	self.current_level_index = index
@@ -14,9 +19,12 @@ func next_level():
 	self.select_level(self.current_level_index + 1)
 
 func get_level(index: int):
+	if index >= MAX_LEVEL_COUNT:
+		return null
+	
 	match index:
 		0: return LevelWrapper.new(
-			[Flood.new(15.0)],
+			[Flood.new(35.0)],
 			[]
 		)
 		1: return LevelWrapper.new(
@@ -36,4 +44,3 @@ func get_level(index: int):
 				TutorialStep.new(TutorialStep.Trigger.NEXT_PHASE, "Keep going to survive the next two waves!\nThe last one comes up fast.\nYou might want to build higher now!"),
 			]
 		)
-		_: return null

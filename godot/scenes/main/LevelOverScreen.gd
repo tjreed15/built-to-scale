@@ -2,6 +2,7 @@ class_name LevelOverScreen
 extends Control
 
 var WIN_TEXT: String = "You did it!"
+var GAME_WON_TEXT: String = "Congratulations! You finished the game!"
 var LOSE_TEXT: String = "Oh no!"
 var NEXT_LEVEL_TEXT: String = "Next Level"
 var RETRY_LEVEL_TEXT: String = "Retry Level"
@@ -31,9 +32,13 @@ func _level_button_pressed():
 
 func win():
 	self.get_tree().paused = true
-	self.label.text = WIN_TEXT
-	self.level_button.text = NEXT_LEVEL_TEXT
 	self.won = true
+	if SharedState.has_next_level():
+		self.label.text = WIN_TEXT
+		self.level_button.text = NEXT_LEVEL_TEXT
+	else:
+		self.label.text = GAME_WON_TEXT
+		self.level_button.hide()
 	self.show()
 
 func lose():
