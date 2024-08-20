@@ -11,9 +11,16 @@ const TIMER_LABEL_MAX_TIME: int = 5
 const DISASTER_BUTTON_SIZE: float = 175.0
 const DISASTER_BUTTON_ICON_SIZE: float = 60.0
 
+const TIMESCALE_DICT: Dictionary = {
+	1: [2.0, "forward"],
+	2: [4.0, "forward-fast"],
+	4: [1.0, "play"],
+}
+
 onready var tower_map: TowerMap = $"%TowerMap"
 onready var right_panel: VBoxContainer = $"%RightPanel"
 onready var pause_button: PrettyButton = $"%PauseButton"
+onready var speed_button: PrettyButton = $"%SpeedButton"
 onready var tutorial_cover: TutorialCover = $"%TutorialCover"
 onready var timer_label_container: Control = $"%TimerLabelContainer"
 onready var timer_label: Label = $"%TimerLabel"
@@ -34,6 +41,8 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	self.pause_button.connect("pressed", self, "_pause_button_pressed")
 	# warning-ignore:return_value_discarded
+	self.speed_button.connect("pressed", self, "_speed_button_pressed")
+	# warning-ignore:return_value_discarded
 	self.tutorial_cover.connect("finished", self, "_tutorial_step_finished")
 	self.__init_level_wrapper()
 
@@ -48,6 +57,11 @@ func __init_level_wrapper():
 
 func _pause_button_pressed():
 	self.pause_screen.pause()
+
+func _speed_button_pressed():
+	var values = TIMESCALE_DICT.get(int(Engine.time_scale), TIMESCALE_DICT[1])
+	Engine.time_scale = values[0]
+	self.speed_button.icon_name = values[1]
 
 func show_tutorial(text: String):
 	self.tutorial_cover.popup(text)
@@ -128,6 +142,7 @@ func __update_time(time_left: float):
 
 func __disaster_finished(success: bool):
 	self.timer_label_container.hide()
+	Engine.time_scale = 1.0
 	if success:
 		self.__start_next_disaster()
 		self.emit_signal("phase_won")

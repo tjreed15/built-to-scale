@@ -277,24 +277,41 @@ margin_bottom = -180.0
 script = ExtResource( 9 )
 temp = 2
 
-[node name="PauseButtonWrapper" type="CenterContainer" parent="Left"]
+[node name="ButtonWrapper" type="CenterContainer" parent="Left"]
 margin_top = 540.0
 margin_right = 200.0
 margin_bottom = 720.0
 
-[node name="PauseButton" type="Control" parent="Left/PauseButtonWrapper"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Left/ButtonWrapper"]
+margin_left = 20.0
+margin_top = 13.0
+margin_right = 180.0
+margin_bottom = 167.0
+
+[node name="PauseButton" type="Control" parent="Left/ButtonWrapper/VBoxContainer"]
 unique_name_in_owner = true
-margin_left = 25.0
-margin_top = 40.0
-margin_right = 175.0
-margin_bottom = 140.0
-rect_min_size = Vector2( 150, 100 )
+margin_right = 160.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 160, 75 )
 theme_type_variation = "WinScreenButton"
 script = ExtResource( 14 )
 direction = Vector2( -1, 0 )
 text = " Pause"
 icon_size = 32
 icon_name = "pause"
+
+[node name="SpeedButton" type="Control" parent="Left/ButtonWrapper/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 79.0
+margin_right = 160.0
+margin_bottom = 154.0
+rect_min_size = Vector2( 160, 75 )
+theme_type_variation = "WinScreenButton"
+script = ExtResource( 14 )
+direction = Vector2( -1, 0 )
+text = " Speed"
+icon_size = 32
+icon_name = "play"
 
 [node name="Right" type="Control" parent="."]
 anchor_left = 1.0

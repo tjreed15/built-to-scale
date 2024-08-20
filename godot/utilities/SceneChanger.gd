@@ -65,6 +65,7 @@ func swap_scene(scene, args: ChangeSceneArgs = DEFAULT_CHANGE_SCENE_ARGS):
 
 func __set_root_node(next_node: Node, args: ChangeSceneArgs):
 	NodeUtils.unpause()
+	Engine.time_scale = 1.0
 	assert(self.scene_changer_root.get_child_count() == 1, "The root node must have exactly one child before changing scenes")
 	var previous_node: Node = self.scene_changer_root.get_children()[0]
 	self.scene_changer_root.remove_child(previous_node)
