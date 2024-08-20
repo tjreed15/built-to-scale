@@ -13,9 +13,11 @@ func get_drag_data(_position: Vector2):
 	var container = DragContainer.new(self.next_draggable)
 	container.connect("dropped", self, "_item_dropped")
 	set_drag_preview(container)
+	GlobalSignals.emit_signal("drag_started")
 	return container
 
 func _item_dropped(draggable: DragContainer):
+	GlobalSignals.emit_signal("drag_stopped")
 	if draggable.succeeded:
 		self.__reset_draggable()
 	else:

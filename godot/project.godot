@@ -156,6 +156,7 @@ NodeUtils="*res://utilities/NodeUtils.gd"
 StartupScripts="*res://utilities/StartupScripts.gd"
 SceneChanger="*res://utilities/SceneChanger.gd"
 SharedState="*res://utilities/SharedState.gd"
+GlobalSignals="*res://utilities/GlobalSignals.gd"
 
 [display]
 

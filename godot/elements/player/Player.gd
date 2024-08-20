@@ -10,6 +10,8 @@ const DEATH_TIME: float = 1.0
 const N_DEATH_SPINS: float = 5.0
 const HIT_DIST: float = 35.0
 const CHECK_SQUARES: Array = [Vector2.ZERO, Vector2.LEFT, Vector2.UP, -Vector2.ONE]
+const DRAG_MODULATE_A: float = 0.3
+const NORMAL_MODULATE_A: float = 1.0
 
 var sprite: Sprite = Sprite.new()
 var parabolic_mover: ParabolicMover = ParabolicMover.new()
@@ -32,6 +34,10 @@ func _init(tower_map: TowerMap):
 	# warning-ignore:return_value_discarded
 	self.parabolic_mover.connect("reached_target", self, "_finish_jump")
 	self.add_child(self.parabolic_mover)
+	# warning-ignore:return_value_discarded
+	GlobalSignals.connect("drag_started", self, "_drag_started")
+	# warning-ignore:return_value_discarded
+	GlobalSignals.connect("drag_stopped", self, "_drag_stopped")
 
 func get_tower_index():
 	return self.tower_map.get_cell_index(self.position)
@@ -110,3 +116,9 @@ func _tower_cell_cleared():
 		self.jump_was_fall = true
 		self.parabolic_mover.start(fall_to, fall_time)
 		self.moving = true
+
+func _drag_started():
+	self.modulate.a = DRAG_MODULATE_A
+
+func _drag_stopped():
+	self.modulate.a = NORMAL_MODULATE_A

@@ -161,7 +161,7 @@ func clear_unstable(cell_indices: Array):
 	self.emit_signal("cell_cleared")
 
 func __is_stable(index: Vector2):
-	for y in range(index.y + 1, SIZE.y):
+	for y in range(index.y, SIZE.y):
 		if not self.has_value(Vector2(index.x, y)):
 			return false
 	return true
