@@ -77,9 +77,9 @@ func _draw():
 		self.__init()
 	
 	self.label.text = self.text
-	self.icon.icon_size = self.icon_size
-	self.icon.icon_type = self.icon_type
-	self.icon.icon_name = self.icon_name
+	self.icon.set_icon_size(self.icon_size)
+	self.icon.set_icon_type(self.icon_type)
+	self.icon.set_icon_name(self.icon_name)
 	
 	self.label.visible = true if self.text else false
 	self.icon.visible = true if self.icon_name else false

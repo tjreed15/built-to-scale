@@ -8,6 +8,8 @@ func _ready():
 	self.call_deferred("__reset_draggable")
 
 func get_drag_data(_position: Vector2):
+	if self.get_tree().paused:
+		return
 	var container = DragContainer.new(self.next_draggable)
 	container.connect("dropped", self, "_item_dropped")
 	set_drag_preview(container)

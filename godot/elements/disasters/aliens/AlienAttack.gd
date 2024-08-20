@@ -2,7 +2,7 @@ class_name AlienAttack
 extends Disaster
 
 const NAME: String = "Alien Attack"
-const ICON: String = "reddit-alien"
+const ICON: String = "hand-back-fist"
 
 const ENEMY_MIN: Vector2 = Vector2(1080, 525)
 const ENEMY_MAX: Vector2 = Vector2(1280 - 70, 700 - 70)
@@ -13,7 +13,7 @@ var enemies: Array = []
 
 onready var spawn_timer: Timer = Timer.new()
 
-func _init(duration: float, player: Player, tower_map: TowerMap).(NAME, ICON, duration, player, tower_map):
+func _init(duration: float).(NAME, ICON, duration):
 	pass
 
 func _ready():
@@ -21,6 +21,12 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	self.spawn_timer.connect("timeout", self, "_spawn")
 	self.spawn_timer.start(SPAWN_RATE)
+
+func reset():
+	for enemy in self.enemies:
+		self.remove_child(enemy)
+		enemy.queue_free()
+	self.enemies.clear()
 
 func _spawn():
 	if self.enemies.size() < ENEMY_COUNT:

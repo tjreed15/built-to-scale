@@ -9,7 +9,7 @@ const TARGET_LINE_HEIGHT: int = 3
 var target_line: ColorRect = ColorRect.new()
 var target_height: int = 5
 
-func _init(duration: float, player: Player, tower_map: TowerMap).(NAME, ICON, duration, player, tower_map):
+func _init(duration: float).(NAME, ICON, duration):
 	pass
 
 func _ready():

@@ -11,8 +11,8 @@ Play it here: https://tjreed.itch.io/built-to-scale
 
 ## TODO
 * Initial Game Loop
-	* Simple Player Navigation
-	* Implement Disasters
+	* Implement Waves
+		* Add tutorial steps as waves?
 	* Add tutotial / story text
 * Extra features
 	* Full Menu

@@ -10,7 +10,7 @@ const REVERSE_MAP: Dictionary = {
 }
 
 const TILE_SIZE: int = Block.BLOCK_SIZE
-const SIZE: Vector2 = Vector2(26, 15)
+const SIZE: Vector2 = Vector2(25, 15)
 const SIZE_IN_PIXELS: Vector2 = SIZE * TILE_SIZE
 const TRANSPARENT_TILE_INDEX: int = 6
 const NEIGHBORS = [Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1)]
@@ -73,6 +73,13 @@ func get_used_cells():
 		if self.has_value(cell):
 			result.append(cell)
 	return result
+
+func reset():
+	self.clear()
+	self.__add_initial_tiles()
+	self.falling_mutex.unlock()
+	self.falling_array = []
+	
 
 func add_cell(pos: Vector2, tile: int, rotation: int):
 	var options = self.__init_transpose_options(rotation)
@@ -211,7 +218,7 @@ func __find_drop(index: Vector2):
 func __insert_falling(falling: FallData):
 	self.falling_mutex.lock()
 	self.falling_array.append(falling)
-	self.falling_mutex.lock()
+	self.falling_mutex.unlock()
 
 func __add_initial_tiles():
 	for col in SIZE.x:

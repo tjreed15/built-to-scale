@@ -1,6 +1,5 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://components/PrettyButton.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/wood/elementWood010.png" type="Texture" id=2]
 [ext_resource path="res://resources/images/wood/elementWood013.png" type="Texture" id=3]
 [ext_resource path="res://resources/images/stone/elementStone011.png" type="Texture" id=4]
@@ -256,18 +255,24 @@ temp = 3
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -200.0
-rect_min_size = Vector2( 200, 300 )
+margin_left = -205.0
+margin_right = -5.0
+rect_min_size = Vector2( 205, 300 )
 theme_type_variation = "SecondaryThemedColorRect"
 
-[node name="UpNextButton" type="Control" parent="Right"]
+[node name="Divider" type="ColorRect" parent="Right"]
+anchor_bottom = 1.0
+margin_right = 2.0
+margin_bottom = -195.0
+
+[node name="CenterContainer" type="CenterContainer" parent="Right"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -195.0
+
+[node name="RightPanel" type="VBoxContainer" parent="Right/CenterContainer"]
 unique_name_in_owner = true
-margin_right = 200.0
-margin_bottom = 200.0
-theme_type_variation = "NaturalDisasterButton"
-script = ExtResource( 1 )
-direction = Vector2( 0, 1 )
-text = "Flood
-0:59"
-icon_size = 64
-icon_name = "cloud-showers-heavy"
+margin_left = 15.0
+margin_right = 190.0
+margin_bottom = 525.0
+rect_min_size = Vector2( 175, 525 )

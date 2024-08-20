@@ -12,25 +12,31 @@ var tower_map: TowerMap
 
 var time_left: float
 
-onready var timer: Timer = Timer.new()
+var timer: Timer = Timer.new()
 
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
-func _init(disaster_name: String, icon: String, duration: float, player: Player, tower_map: TowerMap):
+func _init(disaster_name: String, icon: String, duration: float):
 	self.disaster_name = disaster_name
 	self.icon = icon
 	self.duration = duration
-	self.time_left = duration
-	self.player = player
-	self.tower_map = tower_map
-
-func _ready():
 	self.add_child(self.timer)
 	# warning-ignore:return_value_discarded
 	self.timer.connect("timeout", self, "_tic")
+
+func start(player: Player, tower_map: TowerMap):
+	self.player = player
+	self.tower_map = tower_map
+	self.time_left = self.duration
+
+# This should be overridden by subclasses
+func reset():
+	pass
+
+func _ready():
 	self.timer.start(1.0)
 
 func _tic():
