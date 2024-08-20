@@ -41,7 +41,7 @@ class FallData:
 		self.sprite.scale = Vector2(0.5, 0.5)
 		self.sprite.rotation_degrees = rotation * 90
 		self.tile_map.get_parent().add_child(self.sprite)
-		self.tile_map.clear_cell(current_index)
+		self.tile_map.clear_cell(current_index, true)
 
 	func fall(delta: float):
 		if not is_instance_valid(self.sprite):
@@ -92,8 +92,12 @@ func get_world_cell_position(index: Vector2):
 func get_cell_index(global_position: Vector2):
 	return self.world_to_map(self.to_local(global_position))
 
-func clear_cell(index: Vector2):
+func clear_cell(index: Vector2, falling: bool):
+	var prev_tile = self.get_cellv(index)
 	self.set_cellv(index, TRANSPARENT_TILE_INDEX)
+	if not falling:
+		var pos = self.get_global_cell_position(index)
+		self.__animate_explosion(pos, REVERSE_MAP.get(prev_tile))
 
 func in_bounds(index: Vector2):
 	if index.x < 0 or index.y < 0 or index.x >= SIZE.x or index.y >= SIZE.y:
@@ -151,7 +155,7 @@ func _input(event: InputEvent):
 
 func _rock_hit(position: Vector2):
 	var index = self.get_cell_index(position)
-	self.clear_cell(index)
+	self.clear_cell(index, false)
 	self.__drop_cells(index)
 	self.emit_signal("cell_cleared")
 
@@ -160,7 +164,7 @@ func clear_unstable(cell_indices: Array):
 		if self.__is_stable(cell):
 			return
 	for cell in cell_indices:
-		self.clear_cell(cell)
+		self.clear_cell(cell, false)
 	for cell in cell_indices:
 		self.__drop_cells(cell)
 	self.emit_signal("cell_cleared")
@@ -246,3 +250,39 @@ func __add_initial_tiles():
 			self.set_cell(col, row, TRANSPARENT_TILE_INDEX)
 	for col in 4:
 		self.add_cell(Vector2(col, SIZE.y - 1), 2, 0)
+
+# Random values given for min and spread
+const N_EXPLOSION_PIECES = [2, 3]
+const EXPLOSION_TIME = [0.2, 0.6]
+const EXPLOSION_SPIN_TIME = [0.2, 2.0]
+const EXPLOSION_Y_DEPTH = [TILE_SIZE * 2.0, TILE_SIZE * 6.0]
+const LANDING_SPREAD = [TILE_SIZE * 10.0, TILE_SIZE * 10.0]
+
+func __animate_explosion(pos: Vector2, texture: Texture):
+	var n_pieces = N_EXPLOSION_PIECES[0] + (randf() * N_EXPLOSION_PIECES[0])
+	for i in n_pieces:
+		# Slightly randomize constants
+		var explosion_time = EXPLOSION_TIME[0] + (randf() * EXPLOSION_TIME[1])
+		var explosion_spin_time = EXPLOSION_SPIN_TIME[0] + (randf() * EXPLOSION_SPIN_TIME[1])
+		var explosion_y_depth = EXPLOSION_Y_DEPTH[0] + (randf() * EXPLOSION_Y_DEPTH[1])
+		var landing_spread = LANDING_SPREAD[0] + (randf() * LANDING_SPREAD[1])
+		
+		var sprite = Sprite.new()
+		sprite.global_position = pos
+		sprite.texture = texture
+		self.add_child(sprite)
+		sprite.global_position = pos + (Vector2.ONE * TILE_SIZE)
+		sprite.modulate = GlobalConstants.RED_TINT
+		var mover = ParabolicMover.new()
+		sprite.add_child(mover)
+		var direction = Vector2((-landing_spread / 2.0) + (i * (landing_spread/(n_pieces - 1))), explosion_y_depth)
+		mover.start(pos + direction, explosion_time)
+		mover.connect("reached_target", self, "_kill_sprite", [sprite])
+		var tween = sprite.create_tween()
+		tween.set_loops()
+		tween.tween_property(sprite, "rotation", TAU, explosion_spin_time).as_relative()
+		
+func _kill_sprite(sprite: Sprite):
+	self.remove_child(sprite)
+	sprite.queue_free()
+	
