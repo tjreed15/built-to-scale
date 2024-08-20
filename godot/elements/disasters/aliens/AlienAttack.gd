@@ -32,7 +32,7 @@ func reset():
 
 func _spawn():
 	if self.enemies.size() < ENEMY_COUNT:
-		var enemy = Enemy.new(self.get_parent().tower_map, self.get_parent().player)
+		var enemy = Enemy.new(self.tower_map, self.player)
 		enemy.position = ENEMY_MIN + (Vector2(randf(), randf()) * (ENEMY_MAX - ENEMY_MIN))
 		self.enemies.append(enemy)
 		enemy.connect("pressed", self, "_enemy_pressed")
@@ -40,7 +40,7 @@ func _spawn():
 		self.add_child(enemy)
 
 func _enemy_pressed(enemy: Enemy):
-	self.get_parent()._enemy_pressed(enemy)
+	self.game_screen._enemy_pressed(enemy)
 
 func _enemy_died(enemy: Enemy):
 	self.enemies.remove(self.enemies.find(enemy))

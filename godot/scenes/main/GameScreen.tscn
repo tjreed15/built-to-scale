@@ -214,6 +214,11 @@ text = "5"
 align = 1
 valign = 1
 
+[node name="NodeContainer" type="Control" parent="."]
+unique_name_in_owner = true
+margin_right = 40.0
+margin_bottom = 40.0
+
 [node name="Center" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -296,21 +301,17 @@ anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -205.0
-margin_right = -5.0
-rect_min_size = Vector2( 205, 300 )
+margin_bottom = -195.0
 theme_type_variation = "SecondaryThemedColorRect"
 
 [node name="Divider" type="ColorRect" parent="Right"]
 anchor_bottom = 1.0
 margin_right = 2.0
-margin_bottom = -195.0
 
 [node name="RightPanel" type="VBoxContainer" parent="Right"]
 unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -195.0
-rect_min_size = Vector2( 150, 425 )
 rect_clip_content = true
 
 [node name="TutorialCover" type="Control" parent="."]

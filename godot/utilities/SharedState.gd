@@ -43,7 +43,7 @@ func get_levels():
 		),
 		LevelWrapper.new(
 			"Aliens!",
-			[AlienAttack.new(15.0)],
+			[AlienAttack.new(15.0, 1.2)],
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "The forecast predicts Alien Mobsters!\n(Even more impressive than a weather forecast :D)"),
 				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "They will throw rocks at your tower to knock it down.\nThrow rocks at them first (by clicking them)."),
@@ -62,6 +62,29 @@ func get_levels():
 		LevelWrapper.new(
 			"No more tutorial",
 			[Flood.new(10.0), AlienAttack.new(30.0, 0.5), Flood.new(1.0, 10)], 
-			[]
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "Start"),
+			]
+		),
+		LevelWrapper.new(
+			"New Disaster: Snow",
+			[Snow.new(45.0)], 
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "To stay safe from snow, stand in the blue\nand fill the green with your tower!"),
+			]
+		),
+		LevelWrapper.new(
+			"Snow and Floods",
+			[Flood.new(10.0), Snow.new(30.0), Flood.new(5.0, 10)], 
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "Notice that you start with the flood.\nThe hint for the snow is quite dim."),
+			]
+		),
+		LevelWrapper.new(
+			"Flood, Aliens, Snow, Oh My!",
+			[Snow.new(25.0), AlienAttack.new(30.0, 0.5), Flood.new(3.0)], 
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "Start"),
+			]
 		),
 	]

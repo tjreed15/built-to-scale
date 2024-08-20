@@ -12,7 +12,7 @@ var target_height: int = 5
 func _init(duration: float, target_height: int = 5).(NAME, ICON, duration):
 	self.target_height = target_height
 
-func add_hint(node: Node):
+func _add_hint(node: Node):
 	var target_line = ColorRect.new()
 	target_line.color = GlobalConstants.BLUE_COLOR
 	target_line.rect_position = self.tower_map.global_position + Vector2(0, TowerMap.SIZE_IN_PIXELS.y - (self.target_height * TowerMap.TILE_SIZE))

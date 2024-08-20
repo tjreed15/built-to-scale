@@ -7,6 +7,7 @@ signal finished # (success: bool)
 var disaster_name: String = ""
 var icon: String = ""
 var duration: float = 60.0
+var game_screen
 var player: Player
 var tower_map: TowerMap
 
@@ -27,7 +28,11 @@ func _init(disaster_name: String, icon: String, duration: float):
 	# warning-ignore:return_value_discarded
 	self.timer.connect("timeout", self, "_tic")
 
-func initialize(player: Player, tower_map: TowerMap):
+# warning-ignore:shadowed_variable
+# warning-ignore:shadowed_variable
+# warning-ignore:shadowed_variable
+func initialize(game_screen, player: Player, tower_map: TowerMap):
+	self.game_screen = game_screen
 	self.player = player
 	self.tower_map = tower_map
 	self.time_left = self.duration
@@ -36,8 +41,15 @@ func initialize(player: Player, tower_map: TowerMap):
 func get_text():
 	return self.disaster_name
 
+func add_hint(node: Node):
+	var container = Control.new()
+	if node != self:
+		container.modulate.a = 0.25
+	node.add_child(container)
+	self._add_hint(container)
+
 # This can be overridden by subclasses
-func add_hint(_node: Node):
+func _add_hint(_node: Node):
 	pass
 
 # This should be overridden by subclasses

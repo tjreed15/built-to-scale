@@ -17,6 +17,7 @@ onready var pause_button: PrettyButton = $"%PauseButton"
 onready var tutorial_cover: TutorialCover = $"%TutorialCover"
 onready var timer_label_container: Control = $"%TimerLabelContainer"
 onready var timer_label: Label = $"%TimerLabel"
+onready var node_container: Control = $"%NodeContainer"
 onready var level_over_screen: LevelOverScreen = $"%LevelOverScreen"
 onready var pause_screen: PauseScreen = $"%PauseScreen"
 
@@ -29,7 +30,7 @@ func _ready():
 	self.player.position = PLAYER_START_POS
 	# warning-ignore:return_value_discarded
 	self.player.connect("died", self, "_player_died")
-	self.add_child(self.player)
+	self.node_container.add_child(self.player)
 	# warning-ignore:return_value_discarded
 	self.pause_button.connect("pressed", self, "_pause_button_pressed")
 	# warning-ignore:return_value_discarded
@@ -69,7 +70,7 @@ func launch_disasters(disaster_array: Array):
 
 func __initialize_disasters():
 	for disaster in self.disaster_array:
-		disaster.initialize(self.player, self.tower_map)
+		disaster.initialize(self, self.player, self.tower_map)
 
 func __build_disaster_buttons():
 	for disaster in self.disaster_array:
@@ -84,7 +85,7 @@ func __build_disaster_buttons():
 
 func __start_next_disaster():
 	if self.current_disaster:
-		self.remove_child(self.current_disaster)
+		self.node_container.remove_child(self.current_disaster)
 		self.right_panel.remove_child(self.right_panel.get_children()[0])
 		self.current_disaster.disconnect("tic", self, "__update_time")
 		self.current_disaster.disconnect("finished", self, "__disaster_finished")
@@ -101,7 +102,7 @@ func __start_next_disaster():
 	self.current_disaster.connect("tic", self, "__update_time")
 	# warning-ignore:return_value_discarded
 	self.current_disaster.connect("finished", self, "__disaster_finished")
-	self.add_child(self.current_disaster)
+	self.node_container.add_child(self.current_disaster)
 
 func win_level():
 	self.emit_signal("game_won")
