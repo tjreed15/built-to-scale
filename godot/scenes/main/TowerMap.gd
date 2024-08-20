@@ -13,7 +13,6 @@ const TILE_SIZE: int = Block.BLOCK_SIZE
 const SIZE: Vector2 = Vector2(25, 15)
 const SIZE_IN_PIXELS: Vector2 = SIZE * TILE_SIZE
 const TRANSPARENT_TILE_INDEX: int = 6
-const NEIGHBORS = [Vector2(0, 1), Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1)]
 const FALL_SPEED: float = 300.0
 const FALL_ACCELL: float = -ParabolicMover.GRAVITY
 
@@ -126,7 +125,7 @@ func __flood_fill(index: Vector2, seen: Dictionary):
 	if not self.has_value(index):
 		return
 	seen[index] = true
-	for neighbor in NEIGHBORS:
+	for neighbor in GlobalConstants.NEIGHBORS:
 		var next = index + neighbor
 		if seen.has(next):
 			continue
@@ -151,12 +150,21 @@ func _rock_hit(position: Vector2):
 	self.__drop_cells(index)
 	self.emit_signal("cell_cleared")
 
-func attempt_clear(cell_indices: Array):
+func clear_unstable(cell_indices: Array):
+	for cell in cell_indices:
+		if self.__is_stable(cell):
+			return
 	for cell in cell_indices:
 		self.clear_cell(cell)
 	for cell in cell_indices:
 		self.__drop_cells(cell)
 	self.emit_signal("cell_cleared")
+
+func __is_stable(index: Vector2):
+	for y in range(index.y + 1, SIZE.y):
+		if not self.has_value(Vector2(index.x, y)):
+			return false
+	return true
 
 func __clicked(event: InputEventMouseButton):
 	var location = self.to_local(event.position) * self.scale
@@ -191,7 +199,7 @@ func __y_sort_fall_data(a: Vector2, b: Vector2):
 	
 func __determine_drop_indices(index: Vector2):
 	var drops = Set.new([])
-	for neighbor in NEIGHBORS:
+	for neighbor in GlobalConstants.NEIGHBORS:
 		var group = self.flood_fill(index + neighbor)
 		var y_map = self.__y_map(group)
 		if not y_map.has(int(SIZE.y - 1)):

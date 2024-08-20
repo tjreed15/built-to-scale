@@ -8,10 +8,28 @@ func can_drop_data(position: Vector2, container):
 	var block = self.__get_block_from_data(container)
 	if block == null:
 		return false
+
+	for neighbor in self.__get_check_spots(position):
+		if self.__can_drop(block, neighbor):
+			return true
+	return false
+
+func __get_check_spots(position: Vector2):
+	var result = [position]
+	for neighbor in GlobalConstants.NEIGHBORS:
+		result.append(position + (neighbor * Block.BLOCK_SIZE))
+	return result
+
+func __can_drop(block: Block, position: Vector2):
 	return self.__can_fit_block(block, self.__normalize_position(position))
 
 func drop_data(position: Vector2, container):
 	var block = self.__get_block_from_data(container)
+	for neighbor in self.__get_check_spots(position):
+		if self.__can_drop(block, neighbor):
+			return self.__drop_data(block, neighbor, container)
+
+func __drop_data(block: Block, position: Vector2, container):
 	container.remove_child(block)
 	block.position = self.__normalize_position(position)
 	for offset in block.get_offsets():

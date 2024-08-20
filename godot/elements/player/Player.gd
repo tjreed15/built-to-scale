@@ -52,18 +52,24 @@ func animate_death():
 	tween.tween_property(self, "rotation", TAU, DEATH_TIME / N_DEATH_SPINS).as_relative()
 
 func _tower_cell_clicked(index: Vector2):
+	for vector in [Vector2.ZERO, Vector2.DOWN, Vector2.UP, Vector2.LEFT, Vector2.RIGHT]:
+		if self.__attempt_jump(index + vector):
+			return
+
+func __attempt_jump(index: Vector2):
 	if not self.tower_map.has_value(index):
-		return
+		return false
 	
 	# Land with left foot on index (unless off right edge)
 	var target_index = index + Vector2.UP + (Vector2.RIGHT if index.x < TowerMap.SIZE.x - 1 else Vector2.ZERO)
 	if not self.__has_space_to_land(target_index):
-		return
+		return false
 	
 	var target = self.tower_map.get_global_cell_position(target_index)
 	self.jump_was_fall = false
 	self.parabolic_mover.start(target, JUMP_TIME)
 	self.moving = true
+	return true
 
 func _finish_jump():
 	self.moving = false
@@ -76,7 +82,7 @@ func _finish_jump():
 		var below = index + Vector2.DOWN
 		var below_left = below + Vector2.LEFT
 		if below.y < TowerMap.SIZE.y - 1:
-			self.tower_map.attempt_clear([below, below_left])
+			self.tower_map.clear_unstable([below, below_left])
 
 func _check_rock_hit(rock: Rock):
 	return rock.position.distance_to(self.position) < HIT_DIST
