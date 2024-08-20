@@ -1,7 +1,7 @@
 class_name Wind
 extends Disaster
 
-const NAME: String = "Wind"
+const NAME: String = "Sandstorm"
 const ICON: String = "tornado"
 
 const TARGET_LINE_HEIGHT: int = 3

@@ -73,12 +73,6 @@ func get_used_cells():
 			result.append(cell)
 	return result
 
-func reset():
-	self.clear()
-	self.__add_initial_tiles()
-	self.falling_mutex.unlock()
-	self.falling_array = []
-
 func add_cell(pos: Vector2, tile: int, rotation: int):
 	var options = self.__init_transpose_options(rotation)
 	self.set_cellv(pos, tile, options[0], options[1], options[2])

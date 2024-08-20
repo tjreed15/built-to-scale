@@ -30,6 +30,9 @@ func _add_hint(node: Node):
 	inner_square.rect_size = Vector2.ONE * TowerMap.TILE_SIZE * 2
 	node.add_child(inner_square)
 
+func _get_sweep_animation_options():
+	return [0.5, Color.snow]
+
 func _finish():
 	# warning-ignore:integer_division
 	var center_index = Vector2(int(TowerMap.SIZE.x) / 2, int(TowerMap.SIZE.y) - 3)

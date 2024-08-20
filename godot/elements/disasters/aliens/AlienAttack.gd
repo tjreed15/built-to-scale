@@ -24,12 +24,6 @@ func _ready():
 	self.spawn_timer.connect("timeout", self, "_spawn")
 	self.spawn_timer.start(self.spawn_rate)
 
-func reset():
-	for enemy in self.enemies:
-		self.remove_child(enemy)
-		enemy.queue_free()
-	self.enemies.clear()
-
 func _spawn():
 	if self.enemies.size() < ENEMY_COUNT:
 		var enemy = Enemy.new(self.tower_map, self.player)
@@ -38,6 +32,9 @@ func _spawn():
 		enemy.connect("pressed", self, "_enemy_pressed")
 		enemy.connect("died", self, "_enemy_died")
 		self.add_child(enemy)
+
+func _get_sweep_animation_options():
+	return [0.0, Color.transparent]
 
 func _enemy_pressed(enemy: Enemy):
 	self.game_screen._enemy_pressed(enemy)

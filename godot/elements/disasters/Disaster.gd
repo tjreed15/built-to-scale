@@ -52,10 +52,6 @@ func add_hint(node: Node):
 func _add_hint(_node: Node):
 	pass
 
-# This should be overridden by subclasses
-func reset():
-	pass
-
 func _ready():
 	self.timer.start(1.0)
 	self.add_hint(self)
@@ -64,11 +60,35 @@ func _tic():
 	self.time_left -= 1.0
 	self.emit_signal("tic", self.time_left)
 	if self.time_left <= 0:
-#		self.timer.stop()
+		self.timer.stop()
 		var success = self._finish()
-		self.emit_signal("finished", success)
-		
+		self.__play_finish_animation(success)
+
 # This should be overridden by subclasses
 # Return true if stage was successful
 func _finish() -> bool:
 	return true
+
+func _get_sweep_animation_options():
+	return [0.5, GlobalConstants.RED_TINT]
+
+func __play_finish_animation(success: bool):
+	var options = self._get_sweep_animation_options()
+	var time = options[0]
+	var color = options[1]
+	var color_rect = ColorRect.new()
+	color_rect.set_anchors_preset(Control.PRESET_WIDE)
+	color_rect.color = color
+	color_rect.rect_scale = Vector2(2.0, 0.5)
+	color_rect.rect_rotation = -45
+	color_rect.rect_size = GlobalConstants.SCREEN_SIZE
+	color_rect.rect_pivot_offset = color_rect.rect_size / 2.0
+	color_rect.rect_position.x = color_rect.rect_size.x
+	self.game_screen.add_child(color_rect)
+	var tween = color_rect.create_tween()
+	tween.tween_property(color_rect, "rect_position:x", -color_rect.rect_size.x, time)
+	tween.tween_callback(self, "_emit_finished", [success, color_rect])
+
+func _emit_finished(success: bool, color_rect: ColorRect):
+	color_rect.queue_free()
+	self.emit_signal("finished", success)

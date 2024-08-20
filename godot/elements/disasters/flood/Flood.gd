@@ -19,6 +19,9 @@ func _add_hint(node: Node):
 	target_line.rect_size = Vector2(TowerMap.SIZE_IN_PIXELS.x, TARGET_LINE_HEIGHT)
 	node.add_child(target_line)
 
+func _get_sweep_animation_options():
+	return [0.5, Color.turquoise]
+
 func get_text():
 	return self.disaster_name + " (" + String(self.target_height) + ")"
 
