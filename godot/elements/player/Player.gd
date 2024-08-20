@@ -17,6 +17,7 @@ var tower_map: TowerMap
 
 var target_cell_position: Vector2
 var moving: bool = false
+var jump_was_fall: bool = false
 
 # warning-ignore:shadowed_variable
 func _init(tower_map: TowerMap):
@@ -60,14 +61,21 @@ func _tower_cell_clicked(index: Vector2):
 		return
 	
 	var target = self.tower_map.get_global_cell_position(target_index)
+	self.jump_was_fall = false
 	self.parabolic_mover.start(target, JUMP_TIME)
 	self.moving = true
 
 func _finish_jump():
 	self.moving = false
 	self.parabolic_mover.stop()
-	if self.get_tower_index().y >= TowerMap.SIZE.y - 1:
+	var index = self.get_tower_index()
+	if index.y >= TowerMap.SIZE.y - 1:
 		self.emit_signal("died")
+	
+	if not self.jump_was_fall:
+		var below = index + Vector2.DOWN
+		var below_left = below + Vector2.LEFT
+		self.tower_map.attempt_clear([below, below_left])
 
 func _check_rock_hit(rock: Rock):
 	return rock.position.distance_to(self.position) < HIT_DIST
@@ -92,5 +100,6 @@ func _tower_cell_cleared():
 		var fall_y_index = min(fall_y_index_right, fall_y_index_left) - 1
 		var fall_to = self.tower_map.get_global_cell_position(Vector2(location.x, fall_y_index))
 		var fall_time = (fall_y_index - location.y) * FALL_TIME_PER_SQUARE
+		self.jump_was_fall = true
 		self.parabolic_mover.start(fall_to, fall_time)
 		self.moving = true

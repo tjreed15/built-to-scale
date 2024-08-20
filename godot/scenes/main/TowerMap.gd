@@ -151,6 +151,13 @@ func _rock_hit(position: Vector2):
 	self.__drop_cells(index)
 	self.emit_signal("cell_cleared")
 
+func attempt_clear(cell_indices: Array):
+	for cell in cell_indices:
+		self.clear_cell(cell)
+	for cell in cell_indices:
+		self.__drop_cells(cell)
+	self.emit_signal("cell_cleared")
+
 func __clicked(event: InputEventMouseButton):
 	var location = self.to_local(event.position) * self.scale
 	if location.x >= 0 and location.y >= 0 and location.x < SIZE_IN_PIXELS.x and location.y < SIZE_IN_PIXELS.y:

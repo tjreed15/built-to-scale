@@ -16,7 +16,7 @@ func next_level():
 func get_level(index: int):
 	match index:
 		0: return LevelWrapper.new(
-			[Flood.new(2.0)],
+			[Flood.new(15.0)],
 			[]
 		)
 		1: return LevelWrapper.new(
