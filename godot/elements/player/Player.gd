@@ -4,8 +4,10 @@ extends Node2D
 signal died
 
 const image = preload("res://resources/images/aliens/alienGreen_suit.png")
-const JUMP_TIME: float = 0.3
+const JUMP_TIME: float = 0.2
 const FALL_TIME_PER_SQUARE: float = 0.05
+const DEATH_TIME: float = 1.0
+const N_DEATH_SPINS: float = 5.0
 const HIT_DIST: float = 35.0
 const CHECK_SQUARES: Array = [Vector2.ZERO, Vector2.LEFT, Vector2.UP, -Vector2.ONE]
 
@@ -41,6 +43,12 @@ func can_stand_at(index: Vector2):
 	var below = index + Vector2.DOWN
 	var below_left = below + Vector2.LEFT
 	return self.tower_map.has_value(below) or self.tower_map.has_value(below_left)
+
+func animate_death():
+	self.parabolic_mover.start(TowerMap.SIZE_IN_PIXELS + (Vector2.DOWN * 300), DEATH_TIME)
+	var tween = self.create_tween()
+	tween.set_loops()
+	tween.tween_property(self, "rotation", TAU, DEATH_TIME / N_DEATH_SPINS).as_relative()
 
 func _tower_cell_clicked(index: Vector2):
 	if not self.tower_map.has_value(index):

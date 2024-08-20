@@ -11,6 +11,7 @@ const PLAYER_START_POS: Vector2 = Vector2(200 + 70, 525 - 70)
 onready var tower_map: TowerMap = $"%TowerMap"
 onready var right_panel: VBoxContainer = $"%RightPanel"
 onready var tutorial_cover: TutorialCover = $"%TutorialCover"
+onready var level_over_screen: LevelOverScreen = $"%LevelOverScreen"
 
 var player: Player
 var disaster_array: Array
@@ -24,9 +25,10 @@ func _ready():
 	self.add_child(self.player)
 	# warning-ignore:return_value_discarded
 	self.tutorial_cover.connect("finished", self, "_tutorial_step_finished")
+	self.__init_level_wrapper()
 
-# warning-ignore:shadowed_variable
-func set_level_wrapper(level_wrapper):
+func __init_level_wrapper():
+	var level_wrapper = SharedState.current_level
 	level_wrapper.added(self)
 	self.add_child(level_wrapper)
 
@@ -40,7 +42,7 @@ func _enemy_pressed(enemy: Enemy):
 	self.player.target_enemy(enemy)
 
 func _player_died():
-	self.emit_signal("game_lost")
+	self.lose_level()
 
 # warning-ignore:shadowed_variable
 func launch_disasters(disaster_array: Array):
@@ -79,9 +81,15 @@ func __start_next_disaster():
 	self.add_child(self.current_disaster)
 
 func win_level():
-	print("You win!")
-	self.get_tree().paused = true
 	self.emit_signal("game_won")
+	self.player.hide()
+	self.level_over_screen.win()
+
+func lose_level():
+	self.emit_signal("game_lost")
+	self.player.pause_mode = Node.PAUSE_MODE_PROCESS
+	self.player.animate_death()
+	self.level_over_screen.lose()
 
 func __update_time(time_left: float):
 	self.right_panel.get_children()[0].text = self.current_disaster.get_text() + "\n" + NodeUtils.get_time_string(time_left)
@@ -91,4 +99,4 @@ func __disaster_finished(success: bool):
 		self.__start_next_disaster()
 		self.emit_signal("phase_won")
 	else:
-		self.emit_signal("game_lost")
+		self.lose_level()

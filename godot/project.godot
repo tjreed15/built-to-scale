@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utilities/GlobalConstants.gd"
 }, {
+"base": "Control",
+"class": "LevelOverScreen",
+"language": "GDScript",
+"path": "res://scenes/main/LevelOverScreen.gd"
+}, {
 "base": "Node",
 "class": "LevelWrapper",
 "language": "GDScript",
@@ -125,6 +130,7 @@ _global_script_class_icons={
 "FontAwesome6": "",
 "GameScreen": "",
 "GlobalConstants": "",
+"LevelOverScreen": "",
 "LevelWrapper": "",
 "ParabolicMover": "",
 "Player": "",
@@ -149,6 +155,7 @@ config/icon="res://icon.png"
 NodeUtils="*res://utilities/NodeUtils.gd"
 StartupScripts="*res://utilities/StartupScripts.gd"
 SceneChanger="*res://utilities/SceneChanger.gd"
+SharedState="*res://utilities/SharedState.gd"
 
 [display]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://elements/tutorials/TutorialCover.gd" type="Script" id=1]
 [ext_resource path="res://resources/images/wood/elementWood010.png" type="Texture" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://scenes/main/TowerMap.gd" type="Script" id=12]
 [ext_resource path="res://resources/images/transparent.png" type="Texture" id=13]
 [ext_resource path="res://components/PrettyButton.gd" type="Script" id=14]
+[ext_resource path="res://scenes/main/LevelOverScreen.gd" type="Script" id=15]
+[ext_resource path="res://resources/fonts/sans-bold-48.tres" type="DynamicFont" id=16]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -301,3 +303,59 @@ rect_min_size = Vector2( 1100, 150 )
 theme_type_variation = "TutorialButton"
 script = ExtResource( 14 )
 text = "This is tutorial text. Click it!"
+
+[node name="LevelOverScreen" type="Control" parent="."]
+pause_mode = 2
+unique_name_in_owner = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 15 )
+
+[node name="ColorRect" type="ColorRect" parent="LevelOverScreen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.588235 )
+
+[node name="Label" type="Label" parent="LevelOverScreen"]
+unique_name_in_owner = true
+anchor_right = 1.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 500 )
+custom_fonts/font = ExtResource( 16 )
+text = "Oh No!"
+align = 1
+valign = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="LevelOverScreen"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 500.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LevelOverScreen/CenterContainer"]
+margin_top = 35.0
+margin_right = 1280.0
+margin_bottom = 185.0
+rect_min_size = Vector2( 1280, 150 )
+custom_constants/separation = 50
+alignment = 1
+
+[node name="MenuButton" type="Control" parent="LevelOverScreen/CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 215.0
+margin_right = 615.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 400, 100 )
+theme_type_variation = "WinScreenButton"
+script = ExtResource( 14 )
+text = "Main Menu"
+
+[node name="LevelButton" type="Control" parent="LevelOverScreen/CenterContainer/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 665.0
+margin_right = 1065.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 400, 100 )
+theme_type_variation = "WinScreenButton"
+script = ExtResource( 14 )
+text = "Next Level"
