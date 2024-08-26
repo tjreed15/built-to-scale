@@ -69,59 +69,91 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 1, 1, 1, 0 )
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 190.0
-margin_top = 128.0
-margin_right = 1090.0
-margin_bottom = 592.0
+[node name="CenterContainer" type="CenterContainer" parent="ScrollContainer"]
+margin_right = 1280.0
+margin_bottom = 685.0
+rect_min_size = Vector2( 1280, 0 )
 
-[node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 900.0
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/CenterContainer"]
+margin_left = 40.0
+margin_right = 1240.0
+margin_bottom = 685.0
+rect_min_size = Vector2( 1200, 0 )
+
+[node name="CreatedBy" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
+margin_right = 1200.0
 margin_bottom = 67.0
 custom_fonts/font = ExtResource( 1 )
 text = "Created by:"
 align = 1
 valign = 1
 
-[node name="Developer" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Developer" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
 margin_top = 71.0
-margin_right = 900.0
+margin_right = 1200.0
 margin_bottom = 138.0
 custom_fonts/font = ExtResource( 1 )
 text = "TJ Reed"
 align = 1
 valign = 1
 
-[node name="Space" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="Space" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
 margin_top = 142.0
-margin_right = 900.0
-margin_bottom = 209.0
-custom_fonts/font = ExtResource( 1 )
+margin_right = 1200.0
+margin_bottom = 187.0
 align = 1
 valign = 1
 
-[node name="Help" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_top = 213.0
-margin_right = 900.0
-margin_bottom = 280.0
+[node name="Help" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
+margin_top = 191.0
+margin_right = 1200.0
+margin_bottom = 258.0
 custom_fonts/font = ExtResource( 1 )
 text = "With Design Help From:"
 align = 1
 valign = 1
 
-[node name="Helpers" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_top = 284.0
-margin_right = 900.0
-margin_bottom = 464.0
+[node name="Helpers" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
+margin_top = 262.0
+margin_right = 1200.0
+margin_bottom = 442.0
 rect_min_size = Vector2( 900, 0 )
 custom_fonts/font = ExtResource( 5 )
 text = "Andrew Molina, Jet Reed,
 Tori Reed, Melisa Ames,
 and Kevin Braunschweig"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Space2" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
+margin_top = 446.0
+margin_right = 1200.0
+margin_bottom = 491.0
+align = 1
+valign = 1
+
+[node name="Music" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
+margin_top = 495.0
+margin_right = 1200.0
+margin_bottom = 562.0
+custom_fonts/font = ExtResource( 1 )
+text = "Music by:"
+align = 1
+valign = 1
+
+[node name="MusicCredits" type="Label" parent="ScrollContainer/CenterContainer/VBoxContainer"]
+margin_top = 566.0
+margin_right = 1200.0
+margin_bottom = 685.0
+rect_min_size = Vector2( 900, 0 )
+custom_fonts/font = ExtResource( 5 )
+text = "Menu: \"Vibing Over Venus\" Kevin MacLeod
+Game: \"Mesmerizing Galaxy\" Kevin MacLeod"
 align = 1
 valign = 1
 autowrap = true

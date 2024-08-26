@@ -10,6 +10,7 @@ const PLAYER_START_POS: Vector2 = Vector2(200 + 70, 525 - 70)
 const TIMER_LABEL_MAX_TIME: int = 5
 const DISASTER_BUTTON_SIZE: float = 175.0
 const DISASTER_BUTTON_ICON_SIZE: float = 60.0
+const MUSIC: AudioStream = preload("res://resources/music/MesmerizingGalaxyLoop.mp3")
 
 const TIMESCALE_DICT: Dictionary = {
 	1: [2.0, "forward"],
@@ -44,6 +45,7 @@ func _ready():
 	self.speed_button.connect("pressed", self, "_speed_button_pressed")
 	# warning-ignore:return_value_discarded
 	self.tutorial_cover.connect("finished", self, "_tutorial_step_finished")
+	MusicPlayer.play(MUSIC)
 	self.__init_level_wrapper()
 
 func _input(_event: InputEvent):

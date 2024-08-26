@@ -4,6 +4,7 @@ const MAX_MOVE_X: float = 10.0
 const MAX_MOVE_Y: float = 10.0
 const MAX_MOVE_TIME: float = 3.0
 const MIN_MOVE_TIME: float = 0.5
+const MUSIC: AudioStream = preload("res://resources/music/Vibing Over Venus.mp3")
 
 onready var play_button: PrettyButton = $"%PlayButton"
 onready var level_select_button: PrettyButton = $"%LevelSelectButton"
@@ -20,7 +21,9 @@ func _ready():
 	self.endless_mode_button.connect("pressed", self, "_endless_mode_button_pressed")
 	# warning-ignore:return_value_discarded
 	self.credits_button.connect("pressed", self, "_credits_button_pressed")
+	MusicPlayer.play(MUSIC)
 	self.__animate_blocks()
+	
 
 func _play_button_pressed():
 	SharedState.select_level(0)

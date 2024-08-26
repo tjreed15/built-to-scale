@@ -60,6 +60,8 @@ class FallData:
 		self.sprite.queue_free()
 		self.tile_map.add_cell(self.target_index, self.tile, self.rotation)
 
+onready var multi_channel_sfx: MultiChannelSFX = $MultiChannelSFX
+
 var falling_mutex: Mutex = Mutex.new()
 var falling_array: Array = []
 
@@ -88,6 +90,8 @@ func get_cell_index(global_position: Vector2):
 
 func clear_cell(index: Vector2, falling: bool):
 	var prev_tile = self.get_cellv(index)
+	if prev_tile in [-1, TRANSPARENT_TILE_INDEX]:
+		return
 	self.set_cellv(index, TRANSPARENT_TILE_INDEX)
 	if not falling:
 		var pos = self.get_global_cell_position(index)
@@ -253,6 +257,7 @@ const EXPLOSION_Y_DEPTH = [TILE_SIZE * 2.0, TILE_SIZE * 6.0]
 const LANDING_SPREAD = [TILE_SIZE * 10.0, TILE_SIZE * 10.0]
 
 func __animate_explosion(pos: Vector2, texture: Texture):
+	self.__play_exploding_audio()
 	var n_pieces = N_EXPLOSION_PIECES[0] + (randf() * N_EXPLOSION_PIECES[0])
 	for i in n_pieces:
 		# Slightly randomize constants
@@ -279,4 +284,6 @@ func __animate_explosion(pos: Vector2, texture: Texture):
 func _kill_sprite(sprite: Sprite):
 	self.remove_child(sprite)
 	sprite.queue_free()
-	
+
+func __play_exploding_audio():
+	self.multi_channel_sfx.play_random()

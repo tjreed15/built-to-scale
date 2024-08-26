@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/MesmerizingGalaxyLoop.mp3-2ada73415dad0a0e3e46f1caeb2c391f.mp3str"
+
+[deps]
+
+source_file="res://resources/music/MesmerizingGalaxyLoop.mp3"
+dest_files=[ "res://.import/MesmerizingGalaxyLoop.mp3-2ada73415dad0a0e3e46f1caeb2c391f.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

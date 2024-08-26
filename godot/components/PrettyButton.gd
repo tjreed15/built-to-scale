@@ -3,6 +3,7 @@ class_name PrettyButton
 extends Control
 
 signal pressed
+signal hovered
 
 export var direction: Vector2 = Vector2.UP # Points from text to icon setget _set_direction
 func _set_direction(new_value):
@@ -28,6 +29,8 @@ export(int) var corner_radius: int = 20 setget _set_corner_radius
 func _set_corner_radius(new_value):
 	corner_radius = new_value
 	self.update()
+export var click_sounds: Array = [preload("res://resources/sfx/click_004.ogg")]
+export var hover_sounds: Array = [preload("res://resources/sfx/click_003.ogg")]
 export var disabled: bool = false setget _set_disabled
 func _set_disabled(new_value):
 	disabled = new_value
@@ -39,12 +42,20 @@ onready var container: BoxContainer
 onready var icon: FontAwesome6
 onready var label: Label
 onready var button: BaseButton
+onready var audio_stream_player: AudioStreamPlayer
 
 func _ready():
 	self.__init()
 
 func _button_pressed():
+	var sound = self.click_sounds[randi() % self.click_sounds.size()]
+	SfxPlayer.play(sound)
 	self.emit_signal("pressed")
+
+func _button_hovered():
+	var sound = self.hover_sounds[randi() % self.hover_sounds.size()]
+	SfxPlayer.play(sound)
+	self.emit_signal("hovered")
 
 func __init():
 	NodeUtils.remove_all_children(self)
@@ -68,6 +79,8 @@ func __init():
 	self.button.set_anchors_preset(Control.PRESET_WIDE)
 	# warning-ignore:return_value_discarded
 	self.button.connect("pressed", self, "_button_pressed")
+	# warning-ignore:return_value_discarded
+	self.button.connect("mouse_entered", self, "_button_hovered")
 	self.button.add_stylebox_override("focus", StyleBoxEmpty.new())
 	self.button.flat = true
 	self.add_child(button)
