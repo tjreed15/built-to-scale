@@ -20,6 +20,7 @@ var tower_map: TowerMap
 var target_cell_position: Vector2
 var moving: bool = false
 var jump_was_fall: bool = false
+var dead: bool = false
 
 # warning-ignore:shadowed_variable
 func _init(tower_map: TowerMap):
@@ -78,7 +79,8 @@ func _finish_jump():
 	self.moving = false
 	self.parabolic_mover.stop()
 	var index = self.get_tower_index()
-	if index.y >= TowerMap.SIZE.y - 1:
+	if index.y >= TowerMap.SIZE.y - 1 and not self.dead:
+		self.dead = true
 		self.emit_signal("died")
 	
 	if not self.jump_was_fall:

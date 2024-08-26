@@ -19,6 +19,7 @@ func _ready():
 
 func pause():
 	self.get_tree().paused = true
+	MusicPlayer.turn_down()
 	self.show()
 
 func _blur_pressed():
@@ -36,4 +37,5 @@ func _resume_pressed():
 
 func __resume_game():
 	self.get_tree().paused = false
+	MusicPlayer.turn_up()
 	self.hide()

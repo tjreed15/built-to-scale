@@ -8,6 +8,9 @@ const NEXT_LEVEL_TEXT: String = "Next Level"
 const RETRY_LEVEL_TEXT: String = "Retry Level"
 const ENDLESS_MODE_TEXT: String = "Endless Mode"
 
+const WIN_SOUND: AudioStream = preload("res://resources/sfx/jingles_STEEL10.ogg")
+const LOSE_SOUND: AudioStream = preload("res://resources/sfx/jingles_SAX03.ogg")
+
 onready var label: Label = $"%Label"
 onready var menu_button: PrettyButton = $"%MenuButton"
 onready var level_button: PrettyButton = $"%LevelButton"
@@ -38,6 +41,8 @@ func _level_button_pressed():
 func win():
 	self.get_tree().paused = true
 	self.won = true
+	SfxPlayer.play(WIN_SOUND)
+	MusicPlayer.turn_down()
 	if SharedState.has_next_level():
 		self.label.text = WIN_TEXT
 		self.level_button.text = NEXT_LEVEL_TEXT
@@ -48,6 +53,8 @@ func win():
 
 func lose():
 	self.get_tree().paused = true
+	SfxPlayer.play(LOSE_SOUND)
+	MusicPlayer.turn_down()
 	self.label.text = LOSE_TEXT
 	self.level_button.text = RETRY_LEVEL_TEXT
 	self.won = false

@@ -15,6 +15,16 @@ func _ready():
 	self.add_child(self.player)
 
 func play(stream: AudioStream):
-	if stream != self.player.stream:
+	self.turn_up()
+	if stream != self.player.stream or not self.player.playing:
 		self.player.stream = stream
 		self.player.play()
+
+func turn_down():
+	self.player.volume_db = ((self.volume + 24.0) * 0.5) - 24.0
+
+func turn_up():
+	self.player.volume_db = self.volume
+
+func stop():
+	self.player.stop()

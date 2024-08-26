@@ -134,6 +134,7 @@ func win_level():
 
 func lose_level():
 	self.emit_signal("game_lost")
+	self.player.dead = true
 	self.player.pause_mode = Node.PAUSE_MODE_PROCESS
 	self.player.animate_death()
 	self.level_over_screen.lose()
