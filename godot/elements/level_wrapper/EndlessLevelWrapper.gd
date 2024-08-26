@@ -6,9 +6,10 @@ enum Difficulty {EASY, MEDIUM, HARD}
 var START_STEP = TutorialStep.new(TutorialStep.Trigger.START, "Start")
 var DISASTER_DETAILS = [{
 	"type": AlienAttack,
-	Difficulty.EASY: [10, 1.5],
-	Difficulty.MEDIUM: [15, 1], 
-	Difficulty.HARD: [25, 0.75],
+	# duration, spawn_rate, attack_rate, max_count
+	Difficulty.EASY: [10, 1.5, 1.5, 3],
+	Difficulty.MEDIUM: [15, 0.75, 1.25, 5], 
+	Difficulty.HARD: [25, 0.5, 0.75, 5],
 }, {
 	"type": Flood,
 	Difficulty.EASY: [20, 5],
@@ -16,9 +17,9 @@ var DISASTER_DETAILS = [{
 	Difficulty.HARD: [10, 10],
 }, {
 	"type": Snow,
-	Difficulty.EASY: [45, 2],
-	Difficulty.MEDIUM: [30, 2],
-	Difficulty.HARD: [15],
+	Difficulty.EASY: [45],
+	Difficulty.MEDIUM: [30],
+	Difficulty.HARD: [30, 3],
 }]
 var difficulty: int = Difficulty.EASY
 var prev_index: int = -1

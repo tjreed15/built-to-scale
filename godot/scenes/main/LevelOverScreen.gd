@@ -1,11 +1,12 @@
 class_name LevelOverScreen
 extends Control
 
-var WIN_TEXT: String = "You did it!"
-var GAME_WON_TEXT: String = "Congratulations! You finished the game!"
-var LOSE_TEXT: String = "Oh no!"
-var NEXT_LEVEL_TEXT: String = "Next Level"
-var RETRY_LEVEL_TEXT: String = "Retry Level"
+const WIN_TEXT: String = "You did it!"
+const GAME_WON_TEXT: String = "Congratulations! You finished the game!\nContinue playing in Endless Mode!"
+const LOSE_TEXT: String = "Oh no!"
+const NEXT_LEVEL_TEXT: String = "Next Level"
+const RETRY_LEVEL_TEXT: String = "Retry Level"
+const ENDLESS_MODE_TEXT: String = "Endless Mode"
 
 onready var label: Label = $"%Label"
 onready var menu_button: PrettyButton = $"%MenuButton"
@@ -24,10 +25,14 @@ func _menu_button_pressed():
 
 func _level_button_pressed():
 	if self.won:
-		SharedState.next_level()
+		if SharedState.has_next_level():
+			SharedState.next_level()
+			SceneChanger.change_scene(SceneChanger.Scene.GAME)
+		else:
+			SceneChanger.change_scene(SceneChanger.Scene.ENDLESS_DIFFICULTY_SELECT)
 	else:
 		SharedState.retry_level()
-	SceneChanger.change_scene(SceneChanger.Scene.GAME)
+		SceneChanger.change_scene(SceneChanger.Scene.GAME)
 
 
 func win():
@@ -38,7 +43,7 @@ func win():
 		self.level_button.text = NEXT_LEVEL_TEXT
 	else:
 		self.label.text = GAME_WON_TEXT
-		self.level_button.hide()
+		self.level_button.text = ENDLESS_MODE_TEXT
 	self.show()
 
 func lose():

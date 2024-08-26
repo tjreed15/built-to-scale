@@ -6,7 +6,7 @@ signal died
 
 const image = preload("res://resources/images/aliens/alienYellow_round.png")
 const ATTACK_SEARCH_ATTEMPTS: int = 5
-const WAIT_TIME: float = 1.5
+const DEFAULT_ATTACK_RATE: float = 1.5
 
 var sprite: Sprite = Sprite.new()
 var button: Button = Button.new()
@@ -14,12 +14,15 @@ var timer: Timer = Timer.new()
 
 var tower_map: TowerMap
 var player: Node2D
+var attack_rate: float
 
 # warning-ignore:shadowed_variable
 # warning-ignore:shadowed_variable
-func _init(tower_map: TileMap, player: Node2D):
+# warning-ignore:shadowed_variable
+func _init(tower_map: TileMap, player: Node2D, attack_rate: float = DEFAULT_ATTACK_RATE):
 	self.tower_map = tower_map
 	self.player = player
+	self.attack_rate = attack_rate
 	self.sprite.texture = image
 	self.sprite.centered = false
 	self.add_child(self.sprite)
@@ -62,7 +65,7 @@ func __attack_player():
 	Rock.new(player, player.position).throw(self)
 
 func __start_attack_timer():
-	self.timer.start(WAIT_TIME)
+	self.timer.start(self.attack_rate)
 
 func __get_target_tile():
 	var cells = self.__temp_filter_cells()

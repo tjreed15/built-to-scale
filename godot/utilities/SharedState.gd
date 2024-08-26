@@ -1,5 +1,6 @@
 extends Node
 
+var endless: bool = false
 var current_level_index: int = 0
 var current_level: LevelWrapper
 
@@ -8,12 +9,16 @@ func has_next_level():
 	return self.current_level_index < levels.size() - 1
 
 func select_level(index: int):
+	self.endless = false
 	self.current_level_index = index
 	self.current_level = self.get_level(self.current_level_index)
 
 func retry_level():
-	self.select_level(self.current_level_index)
-	self.__clear_tutorial_steps()
+	if self.endless:
+		self.select_endless_level(self.current_level_index)
+	else:
+		self.select_level(self.current_level_index)
+		self.__clear_tutorial_steps()
 
 func next_level():
 	self.select_level(self.current_level_index + 1)
@@ -23,7 +28,8 @@ func get_level(index: int):
 
 func select_endless_level(index: int):
 	# warning-ignore:narrowing_conversion
-	self.current_level_index = INF
+	self.endless = true
+	self.current_level_index = index
 	self.current_level = EndlessLevelWrapper.new(index)
 	
 func get_levels():
@@ -49,7 +55,7 @@ func get_levels():
 		),
 		LevelWrapper.new(
 			"Aliens!",
-			[AlienAttack.new(15.0, 2.0)],
+			[AlienAttack.new(15.0, 2.0, 1.5, 3)],
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "The forecast predicts Alien Mobsters!\n(Even more impressive than a weather forecast :D)"),
 				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "They will throw rocks at your tower to knock it down.\nThrow rocks at them first (by clicking them)."),
@@ -58,7 +64,7 @@ func get_levels():
 		),
 		LevelWrapper.new(
 			"Multiple Threats",
-			[Flood.new(15.0), AlienAttack.new(30.0, 1.5), Flood.new(10.0, 8)], 
+			[Flood.new(15.0), AlienAttack.new(30.0, 1.5, 1.5, 5), Flood.new(10.0, 8)], 
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "The forecast has multiple threats!\nComplete each one back to back!"),
 				TutorialStep.new(TutorialStep.Trigger.NEXT_PHASE, "You have escaped the flood!\nNow you need to face the aliens again!"),
@@ -66,17 +72,11 @@ func get_levels():
 			]
 		),
 		LevelWrapper.new(
-			"No more tutorial",
-			[Flood.new(10.0), AlienAttack.new(30.0, 0.5), Flood.new(1.0, 10)], 
-			[
-				TutorialStep.new(TutorialStep.Trigger.START, "You made it past the tutorial!\nClick to start."),
-			]
-		),
-		LevelWrapper.new(
 			"New Disaster: Snow",
 			[Snow.new(45.0)], 
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "To stay safe from snow, stand in the blue\nand fill the green with your tower!"),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "If you need to destroy any previously placed blocks,\nright click them!"),
 			]
 		),
 		LevelWrapper.new(
@@ -87,8 +87,15 @@ func get_levels():
 			]
 		),
 		LevelWrapper.new(
+			"No more tutorial",
+			[Flood.new(10.0), AlienAttack.new(30.0, 1.0, 0.5, 5), Flood.new(8.0, 10)], 
+			[
+				TutorialStep.new(TutorialStep.Trigger.START, "You made it past the tutorial!\nClick to start."),
+			]
+		),
+		LevelWrapper.new(
 			"Flood, Aliens, Snow, Oh My!",
-			[Snow.new(25.0), AlienAttack.new(30.0, 0.5), Flood.new(8.0)], 
+			[Snow.new(25.0), AlienAttack.new(30.0, 0.75, 0.5, 5), Flood.new(8.0)], 
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "Start"),
 			]

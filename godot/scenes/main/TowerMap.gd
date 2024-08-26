@@ -148,8 +148,16 @@ func _process(delta: float):
 	self.falling_mutex.unlock()
 
 func _input(event: InputEvent):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
-		self.__clicked(event)
+	if event is InputEventMouseButton and event.is_pressed():
+		var location = self.to_local(event.position) * self.scale
+		if location.x < 0 or location.y < 0 or location.x >= SIZE_IN_PIXELS.x or location.y >= SIZE_IN_PIXELS.y:
+			return
+		
+		var index = (location / float(Block.BLOCK_SIZE)).floor()
+		if event.button_index == BUTTON_LEFT:
+			self.__clicked(index)
+		elif event.button_index == BUTTON_RIGHT:
+			self.__right_clicked(index)
 
 func _rock_hit(position: Vector2):
 	var index = self.get_cell_index(position)
@@ -173,11 +181,13 @@ func __is_stable(index: Vector2):
 			return false
 	return true
 
-func __clicked(event: InputEventMouseButton):
-	var location = self.to_local(event.position) * self.scale
-	if location.x >= 0 and location.y >= 0 and location.x < SIZE_IN_PIXELS.x and location.y < SIZE_IN_PIXELS.y:
-		var index = (location / float(Block.BLOCK_SIZE)).floor()
-		self.emit_signal("cell_clicked", index)
+func __clicked(index: Vector2):
+	self.emit_signal("cell_clicked", index)
+
+func __right_clicked(index: Vector2):
+	self.clear_cell(index, false)
+	self.__drop_cells(index)
+	self.emit_signal("cell_cleared")
 
 func __get_rotation(index: Vector2):
 	var flip_x = self.is_cell_x_flipped(int(index.x), int(index.y))
