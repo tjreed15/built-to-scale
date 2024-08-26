@@ -38,7 +38,7 @@ void fragment() {
 	if (distance(UV, vec2(0.5, 3.0)) > 2.8) {
 		COLOR = vec4(vec3(color), 1.0) + bg_color;
 	} else {
-		COLOR.a = 0.0
+		COLOR.a = 0.0;
 	}
 }"
 
@@ -146,23 +146,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 477.0
-margin_top = 170.0
-margin_right = 802.0
-margin_bottom = 549.0
+margin_left = 490.0
+margin_top = 118.0
+margin_right = 790.0
+margin_bottom = 601.0
 
 [node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 325.0
+margin_right = 300.0
 margin_bottom = 67.0
 custom_fonts/font = ExtResource( 1 )
-text = "Built to Scale"
+text = "Fort Mars"
 align = 1
 valign = 1
 
 [node name="PlayButton" type="Control" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 71.0
-margin_right = 325.0
+margin_right = 300.0
 margin_bottom = 171.0
 rect_min_size = Vector2( 300, 100 )
 theme_type_variation = "MainMenuButton"
@@ -175,7 +175,7 @@ icon_name = "play"
 [node name="LevelSelectButton" type="Control" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 175.0
-margin_right = 325.0
+margin_right = 300.0
 margin_bottom = 275.0
 rect_min_size = Vector2( 300, 100 )
 theme_type_variation = "MainMenuButton"
@@ -185,11 +185,24 @@ text = " Level Select"
 icon_size = 32
 icon_name = "list"
 
-[node name="CreditsButton" type="Control" parent="CenterContainer/VBoxContainer"]
+[node name="EndlessModeButton" type="Control" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
 margin_top = 279.0
-margin_right = 325.0
+margin_right = 300.0
 margin_bottom = 379.0
+rect_min_size = Vector2( 300, 100 )
+theme_type_variation = "MainMenuButton"
+script = ExtResource( 2 )
+direction = Vector2( -1, 0 )
+text = " Endless Mode"
+icon_size = 26
+icon_name = "infinity"
+
+[node name="CreditsButton" type="Control" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 383.0
+margin_right = 300.0
+margin_bottom = 483.0
 rect_min_size = Vector2( 300, 100 )
 theme_type_variation = "MainMenuButton"
 script = ExtResource( 2 )

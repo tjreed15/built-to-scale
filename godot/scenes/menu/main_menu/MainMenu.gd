@@ -7,6 +7,7 @@ const MIN_MOVE_TIME: float = 0.5
 
 onready var play_button: PrettyButton = $"%PlayButton"
 onready var level_select_button: PrettyButton = $"%LevelSelectButton"
+onready var endless_mode_button: PrettyButton = $"%EndlessModeButton"
 onready var credits_button: PrettyButton = $"%CreditsButton"
 onready var block_container: Control = $"%BlockContainer"
 
@@ -15,6 +16,8 @@ func _ready():
 	self.play_button.connect("pressed", self, "_play_button_pressed")
 	# warning-ignore:return_value_discarded
 	self.level_select_button.connect("pressed", self, "_level_select_button_pressed")
+	# warning-ignore:return_value_discarded
+	self.endless_mode_button.connect("pressed", self, "_endless_mode_button_pressed")
 	# warning-ignore:return_value_discarded
 	self.credits_button.connect("pressed", self, "_credits_button_pressed")
 	self.__animate_blocks()
@@ -25,6 +28,9 @@ func _play_button_pressed():
 	
 func _level_select_button_pressed():
 	SceneChanger.change_scene(SceneChanger.Scene.LEVEL_SELECT)
+
+func _endless_mode_button_pressed():
+	SceneChanger.change_scene(SceneChanger.Scene.ENDLESS_DIFFICULTY_SELECT)
 
 func _credits_button_pressed():
 	SceneChanger.change_scene(SceneChanger.Scene.CREDITS)

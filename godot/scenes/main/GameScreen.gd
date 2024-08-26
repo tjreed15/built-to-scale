@@ -82,12 +82,19 @@ func launch_disasters(disaster_array: Array):
 	self.__build_disaster_buttons()
 	self.__start_next_disaster()
 
+func add_disaster(disaster: Disaster):
+	disaster.initialize(self, self.player, self.tower_map)
+	self.__build_disaster_button(disaster)
+
 func __initialize_disasters():
 	for disaster in self.disaster_array:
 		disaster.initialize(self, self.player, self.tower_map)
 
 func __build_disaster_buttons():
 	for disaster in self.disaster_array:
+		self.__build_disaster_button(disaster)
+
+func __build_disaster_button(disaster: Disaster):
 		var button = PrettyButton.new()
 		button.direction = Vector2.DOWN
 		button.text = disaster.get_text() + "\n" + NodeUtils.get_time_string(disaster.duration)

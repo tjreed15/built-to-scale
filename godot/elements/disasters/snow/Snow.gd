@@ -39,6 +39,10 @@ func _finish():
 	var top_left_index = center_index - Vector2(self.target_width, self.target_width)
 	var bottom_right_index = center_index + Vector2(self.target_width + 2, 2)
 	
+	var player_index = self.player.get_tower_index()
+	if player_index != center_index + Vector2.ONE:
+		return false
+	
 	for x in range(top_left_index.x, bottom_right_index.x):
 		for y in range(top_left_index.y, bottom_right_index.y):
 			var index = Vector2(x, y)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://resources/fonts/sans-bold-48.tres" type="DynamicFont" id=1]
 [ext_resource path="res://resources/materials/dirt_disp_4k.png" type="Texture" id=2]
 [ext_resource path="res://components/PrettyButton.gd" type="Script" id=3]
 [ext_resource path="res://scenes/menu/credits/Credits.gd" type="Script" id=4]
+[ext_resource path="res://resources/fonts/sans-semi-bold-42.tres" type="DynamicFont" id=5]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -73,27 +74,57 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 505.0
-margin_top = 291.0
-margin_right = 774.0
-margin_bottom = 429.0
+margin_left = 190.0
+margin_top = 128.0
+margin_right = 1090.0
+margin_bottom = 592.0
 
 [node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
-margin_right = 269.0
+margin_right = 900.0
 margin_bottom = 67.0
 custom_fonts/font = ExtResource( 1 )
-text = "Created by"
+text = "Created by:"
 align = 1
 valign = 1
 
 [node name="Developer" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_top = 71.0
-margin_right = 269.0
+margin_right = 900.0
 margin_bottom = 138.0
 custom_fonts/font = ExtResource( 1 )
 text = "TJ Reed"
 align = 1
 valign = 1
+
+[node name="Space" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 142.0
+margin_right = 900.0
+margin_bottom = 209.0
+custom_fonts/font = ExtResource( 1 )
+align = 1
+valign = 1
+
+[node name="Help" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 213.0
+margin_right = 900.0
+margin_bottom = 280.0
+custom_fonts/font = ExtResource( 1 )
+text = "With Design Help From:"
+align = 1
+valign = 1
+
+[node name="Helpers" type="Label" parent="CenterContainer/VBoxContainer"]
+margin_top = 284.0
+margin_right = 900.0
+margin_bottom = 464.0
+rect_min_size = Vector2( 900, 0 )
+custom_fonts/font = ExtResource( 5 )
+text = "Andrew Molina, Jet Reed,
+Tori Reed, Melisa Ames,
+and Kevin Braunschweig"
+align = 1
+valign = 1
+autowrap = true
 
 [node name="BackButton" type="Control" parent="."]
 unique_name_in_owner = true

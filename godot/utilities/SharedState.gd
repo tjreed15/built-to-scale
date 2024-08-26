@@ -20,6 +20,11 @@ func next_level():
 
 func get_level(index: int):
 	return self.get_levels()[index]
+
+func select_endless_level(index: int):
+	# warning-ignore:narrowing_conversion
+	self.current_level_index = INF
+	self.current_level = EndlessLevelWrapper.new(index)
 	
 func get_levels():
 	return [
@@ -29,7 +34,7 @@ func get_levels():
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "This is tutorial text. Click it!"),
 				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "Drag blocks in from the left to build your tower."),
-				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "You have 20 seconds to build above the blue line!"),
+				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "You have 20 seconds to build above the blue line!\nIf you finish sooner, use the \"Speed\" button in the bottom left."),
 			]
 		),
 		LevelWrapper.new(
@@ -44,7 +49,7 @@ func get_levels():
 		),
 		LevelWrapper.new(
 			"Aliens!",
-			[AlienAttack.new(15.0, 1.2)],
+			[AlienAttack.new(15.0, 2.0)],
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "The forecast predicts Alien Mobsters!\n(Even more impressive than a weather forecast :D)"),
 				TutorialStep.new(TutorialStep.Trigger.AFTER_PREVIOUS, "They will throw rocks at your tower to knock it down.\nThrow rocks at them first (by clicking them)."),
@@ -53,7 +58,7 @@ func get_levels():
 		),
 		LevelWrapper.new(
 			"Multiple Threats",
-			[Flood.new(15.0), AlienAttack.new(30.0, 1.5), Flood.new(1.0, 8)], 
+			[Flood.new(15.0), AlienAttack.new(30.0, 1.5), Flood.new(10.0, 8)], 
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "The forecast has multiple threats!\nComplete each one back to back!"),
 				TutorialStep.new(TutorialStep.Trigger.NEXT_PHASE, "You have escaped the flood!\nNow you need to face the aliens again!"),
@@ -64,7 +69,7 @@ func get_levels():
 			"No more tutorial",
 			[Flood.new(10.0), AlienAttack.new(30.0, 0.5), Flood.new(1.0, 10)], 
 			[
-				TutorialStep.new(TutorialStep.Trigger.START, "Start"),
+				TutorialStep.new(TutorialStep.Trigger.START, "You made it past the tutorial!\nClick to start."),
 			]
 		),
 		LevelWrapper.new(
@@ -83,7 +88,7 @@ func get_levels():
 		),
 		LevelWrapper.new(
 			"Flood, Aliens, Snow, Oh My!",
-			[Snow.new(25.0), AlienAttack.new(30.0, 0.5), Flood.new(3.0)], 
+			[Snow.new(25.0), AlienAttack.new(30.0, 0.5), Flood.new(8.0)], 
 			[
 				TutorialStep.new(TutorialStep.Trigger.START, "Start"),
 			]
