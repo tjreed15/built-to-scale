@@ -1,0 +1,102 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://components/PrettyButton.gd" type="Script" id=1]
+[ext_resource path="res://resources/materials/dirt_disp_4k.png" type="Texture" id=2]
+[ext_resource path="res://resources/fonts/sans-semi-bold-42.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scenes/menu/settings/Settings.gd" type="Script" id=4]
+
+[node name="Settings" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="Background" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+modulate = Color( 0.945098, 0.266667, 0.266667, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 7
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 30.0
+scroll_horizontal_enabled = false
+
+[node name="CenterContainer" type="CenterContainer" parent="ScrollContainer"]
+margin_right = 1280.0
+margin_bottom = 690.0
+rect_min_size = Vector2( 1280, 690 )
+
+[node name="SettingsContainer" type="VBoxContainer" parent="ScrollContainer/CenterContainer"]
+margin_left = 317.0
+margin_top = 243.0
+margin_right = 963.0
+margin_bottom = 447.0
+
+[node name="MusicContainer" type="HBoxContainer" parent="ScrollContainer/CenterContainer/SettingsContainer"]
+margin_right = 646.0
+margin_bottom = 100.0
+alignment = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/CenterContainer/SettingsContainer/MusicContainer"]
+margin_top = 21.0
+margin_right = 142.0
+margin_bottom = 79.0
+custom_fonts/font = ExtResource( 3 )
+text = "Music: "
+
+[node name="MusicSlider" type="HSlider" parent="ScrollContainer/CenterContainer/SettingsContainer/MusicContainer"]
+unique_name_in_owner = true
+margin_left = 146.0
+margin_right = 646.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 500, 100 )
+min_value = -24.0
+max_value = 24.0
+step = 0.5
+value = 1.0
+
+[node name="SFXContainer" type="HBoxContainer" parent="ScrollContainer/CenterContainer/SettingsContainer"]
+margin_top = 104.0
+margin_right = 646.0
+margin_bottom = 204.0
+alignment = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/CenterContainer/SettingsContainer/SFXContainer"]
+margin_left = 48.0
+margin_top = 21.0
+margin_right = 142.0
+margin_bottom = 79.0
+custom_fonts/font = ExtResource( 3 )
+text = "SFX: "
+
+[node name="SFXSlider" type="HSlider" parent="ScrollContainer/CenterContainer/SettingsContainer/SFXContainer"]
+unique_name_in_owner = true
+margin_left = 146.0
+margin_right = 646.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 500, 100 )
+min_value = -24.0
+max_value = 24.0
+step = 0.5
+value = 1.0
+
+[node name="BackButton" type="Control" parent="."]
+unique_name_in_owner = true
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 170.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 100, 66 )
+theme_type_variation = "BackButton"
+script = ExtResource( 1 )
+direction = Vector2( -1, 0 )
+text = "Back"
+icon_size = 32
+icon_name = "arrow-left"

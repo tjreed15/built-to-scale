@@ -9,6 +9,7 @@ const MUSIC: AudioStream = preload("res://resources/music/Vibing Over Venus.mp3"
 onready var play_button: PrettyButton = $"%PlayButton"
 onready var level_select_button: PrettyButton = $"%LevelSelectButton"
 onready var endless_mode_button: PrettyButton = $"%EndlessModeButton"
+onready var settings_button: PrettyButton = $"%SettingsButton"
 onready var credits_button: PrettyButton = $"%CreditsButton"
 onready var block_container: Control = $"%BlockContainer"
 
@@ -19,6 +20,8 @@ func _ready():
 	self.level_select_button.connect("pressed", self, "_level_select_button_pressed")
 	# warning-ignore:return_value_discarded
 	self.endless_mode_button.connect("pressed", self, "_endless_mode_button_pressed")
+	# warning-ignore:return_value_discarded
+	self.settings_button.connect("pressed", self, "_settings_button_pressed")
 	# warning-ignore:return_value_discarded
 	self.credits_button.connect("pressed", self, "_credits_button_pressed")
 	MusicPlayer.play(MUSIC)
@@ -34,6 +37,9 @@ func _level_select_button_pressed():
 
 func _endless_mode_button_pressed():
 	SceneChanger.change_scene(SceneChanger.Scene.ENDLESS_DIFFICULTY_SELECT)
+
+func _settings_button_pressed():
+	SceneChanger.change_scene(SceneChanger.Scene.SETTINGS)
 
 func _credits_button_pressed():
 	SceneChanger.change_scene(SceneChanger.Scene.CREDITS)

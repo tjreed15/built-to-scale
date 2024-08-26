@@ -144,12 +144,13 @@ block_material = 1
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 150.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 margin_left = 490.0
-margin_top = 118.0
+margin_top = 16.0
 margin_right = 790.0
-margin_bottom = 601.0
+margin_bottom = 553.0
 
 [node name="Title" type="Label" parent="CenterContainer/VBoxContainer"]
 margin_right = 300.0
@@ -163,8 +164,8 @@ valign = 1
 unique_name_in_owner = true
 margin_top = 71.0
 margin_right = 300.0
-margin_bottom = 171.0
-rect_min_size = Vector2( 300, 100 )
+margin_bottom = 161.0
+rect_min_size = Vector2( 300, 90 )
 theme_type_variation = "MainMenuButton"
 script = ExtResource( 2 )
 direction = Vector2( -1, 0 )
@@ -174,10 +175,10 @@ icon_name = "play"
 
 [node name="LevelSelectButton" type="Control" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 175.0
+margin_top = 165.0
 margin_right = 300.0
-margin_bottom = 275.0
-rect_min_size = Vector2( 300, 100 )
+margin_bottom = 255.0
+rect_min_size = Vector2( 300, 90 )
 theme_type_variation = "MainMenuButton"
 script = ExtResource( 2 )
 direction = Vector2( -1, 0 )
@@ -187,10 +188,10 @@ icon_name = "list"
 
 [node name="EndlessModeButton" type="Control" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 279.0
+margin_top = 259.0
 margin_right = 300.0
-margin_bottom = 379.0
-rect_min_size = Vector2( 300, 100 )
+margin_bottom = 349.0
+rect_min_size = Vector2( 300, 90 )
 theme_type_variation = "MainMenuButton"
 script = ExtResource( 2 )
 direction = Vector2( -1, 0 )
@@ -198,12 +199,25 @@ text = " Endless Mode"
 icon_size = 26
 icon_name = "infinity"
 
+[node name="SettingsButton" type="Control" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+margin_top = 353.0
+margin_right = 300.0
+margin_bottom = 443.0
+rect_min_size = Vector2( 300, 90 )
+theme_type_variation = "MainMenuButton"
+script = ExtResource( 2 )
+direction = Vector2( -1, 0 )
+text = " Settings"
+icon_size = 26
+icon_name = "gear"
+
 [node name="CreditsButton" type="Control" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
-margin_top = 383.0
+margin_top = 447.0
 margin_right = 300.0
-margin_bottom = 483.0
-rect_min_size = Vector2( 300, 100 )
+margin_bottom = 537.0
+rect_min_size = Vector2( 300, 90 )
 theme_type_variation = "MainMenuButton"
 script = ExtResource( 2 )
 direction = Vector2( -1, 0 )
